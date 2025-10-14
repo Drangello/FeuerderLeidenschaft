@@ -1,7 +1,10 @@
 let canvas;
-let character = new Image();
+let ctx;
+let character = new MovableObject();
 
 function init(){
-    canvas = document.getElementById();
-    character.src = '/img/2_character_pepe/3_jump/J-31.png';
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+
 }
+    console.log('My character ist'+character);
