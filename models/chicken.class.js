@@ -11,12 +11,16 @@ class Chicken extends MovableObject{
     constructor(){
         super();
         this.loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
-        this.x = 200 + Math.random() * 500;
         this.loadImages(this.images_walking);
+
+        this.x = 200 + Math.random() * 500;
+        this.speed = 0.2 + Math.random() * 0.7;
         this.animate();
     }
 
         animate() {
+            this.moveLeft();
+
         setInterval(() => {
             let i = this.currentImage % this.images_walking.length;
             let path = this.images_walking[i];
@@ -24,6 +28,4 @@ class Chicken extends MovableObject{
             this.currentImage++;
         }, 100);
     }
-
-
 }
