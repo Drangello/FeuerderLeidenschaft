@@ -12,13 +12,17 @@ class MovableObject{
     acceleration = 2.5;
 
 
-    applyGravity(){
-        setInterval(() => {
-            if(this.isAboveGround()){
+applyGravity() {
+    setInterval(() => {
+        if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
-        }}, 1000 / 25);
-    }
+        } else {
+            this.y = 150;     // Bodenposition
+            this.speedY = 0;  // Stillstand
+        }
+    }, 1000 / 25);
+}
     isAboveGround(){
         return this.y < 150;
     }   ;
