@@ -12,6 +12,6 @@ class Cloud extends MovableObject{
     }   
 
     animate() {
-        this.moveLeft();
+        this.moveLeftRight(-800, 2250);
     }
 }

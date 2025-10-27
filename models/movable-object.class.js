@@ -10,6 +10,7 @@ class MovableObject{
     otherDirection = false;
     speedY = 1.5;
     acceleration = 2.5;
+    direction= 'left';
 
 
 applyGravity() {
@@ -41,13 +42,21 @@ applyGravity() {
         });
     }
 
-    moveRight(){
-            console.log('Moving right');
-    };
-
-    moveLeft(){
-                setInterval(() =>{
-            this.x -= this.speed;
-        }, 1000 /  60);
+moveLeftRight(levelStart = -750, levelEnd = 2250) {
+        setInterval(() => {
+            if (this.direction === "left") {
+                this.x -= this.speed;
+                this.otherDirection = false;
+                if (this.x <= levelStart) {
+                    this.direction = "right";
+                }
+            } else {
+                this.x += this.speed;
+                this.otherDirection = true;
+                if (this.x + this.width >= levelEnd) {
+                    this.direction = "left";
+                }
+            }
+        }, 1000 / 60);
     };
 }
