@@ -22,7 +22,7 @@ window.addEventListener("keydown", (e) => {
         if(e.keyCode == 83){
         keyboard.DOWN = true;
     }
-        if(e.keyCode == 32){
+        if(e.keyCode == 75){
         keyboard.SPACE = true;
     }
 
@@ -42,7 +42,7 @@ window.addEventListener("keyup", (e) => {
         if(e.keyCode == 83){
         keyboard.DOWN = false;
     }
-        if(e.keyCode == 32){
+        if(e.keyCode == 75){
         keyboard.SPACE = false;
     }
 

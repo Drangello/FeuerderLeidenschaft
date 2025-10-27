@@ -3,9 +3,10 @@ class Character extends MovableObject {
     x = -20;
     width = 200;
     height = 300;
-    speed = 2;
+    speed = 5;
     speedY = 0.7;
     acceleration = 2;
+    jumpHeight = 25;
 
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -35,8 +36,12 @@ class Character extends MovableObject {
                 this.x -= this.speed;
                 this.otherDirection = true;
             }
+
+            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.jump();
+            }
             this.world.camera_x = -this.x + 120;
-            1000 / 60});
+        },1000 / 60);
             
 
         setInterval(() => {
@@ -52,6 +57,6 @@ class Character extends MovableObject {
     }
 
     jump() {
-        // TODO: add jump behavior
+        this.speedY = this.jumpHeight;
     }
 }
