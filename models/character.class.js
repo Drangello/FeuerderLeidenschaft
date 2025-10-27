@@ -1,10 +1,10 @@
 class Character extends MovableObject {
-    y = 10;
+    y = 150;
     x = -20;
     width = 200;
     height = 300;
     speed = 5;
-    speedY = 0.7;
+    speedY = 0;
     acceleration = 2;
     jumpHeight = 25;
 
