@@ -29,6 +29,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
+        
 
         this.ctx.translate(-this.camera_x, 0);
         
@@ -53,11 +54,20 @@ class World {
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1 ;
         }
-    this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+
+if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss) {
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 5;
+    this.ctx.strokeStyle = 'violet';
+    this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
+    this.ctx.stroke();
+}
+
         if(mo.otherDirection){
             mo.x = mo.x * -1 ;
             this.ctx.restore();
             
         }
 }
-}
+    }
