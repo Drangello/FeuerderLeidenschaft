@@ -11,6 +11,7 @@ class MovableObject{
     speedY = 1.5;
     acceleration = 2.5;
     direction= 'left';
+    health = 100;
 
 
 applyGravity() {
@@ -59,4 +60,13 @@ moveLeftRight(levelStart = -750, levelEnd = 2250) {
             }
         }, 1000 / 60);
     };
+            isColliding(mo) {
+        return this.x + this.width > mo.x &&   
+            this.x < mo.x + mo.width &&
+            this.y + this.height > mo.y &&
+            this.y < mo.y + mo.height;
+    }
+    hit(){
+        this.health -= 20;
+}
 }

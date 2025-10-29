@@ -7,6 +7,7 @@ class Character extends MovableObject {
     speedY = 0;
     acceleration = 2;
     jumpHeight = 25;
+    health = 100;
 
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
