@@ -59,11 +59,4 @@ moveLeftRight(levelStart = -750, levelEnd = 2250) {
             }
         }, 1000 / 60);
     };
-    
-  //  isColliding(mo) {
-    //           this.x < mo.x + mo.width &&
-     //          this.y + this.height > mo.y &&
-      //         this.y < mo.y + mo.height;
-    //}
-
 }

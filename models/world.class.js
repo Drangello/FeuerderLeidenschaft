@@ -13,10 +13,19 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollisions();
     }
 
     setWorld(){ 
         this.character.world = this;
+    }
+
+    checkCollisions(){
+        setInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+                this.Character.isColliding(enemy)
+    });
+    }, 200);
     }
 
     draw() {
@@ -70,4 +79,11 @@ if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss) {
             
         }
 }
+        isColliding(mo) {
+        return this.x + this.width > mo.x &&   
+            this.x < mo.x + mo.width &&
+            this.y + this.height > mo.y &&
+            this.y < mo.y + mo.height;
     }
+
+}
