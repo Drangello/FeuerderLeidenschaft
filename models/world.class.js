@@ -19,13 +19,14 @@ class World {
     setWorld(){ 
         this.character.world = this;
     }
+    
 
     checkCollisions(){
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-             if (this.level.character.isColliding(enemy)) {
+             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                console.log('Collision with enemy detected'.this.character.health);
+                console.log('Collision with enemy detected', this.character.health);
              }
     });
     }, 200);

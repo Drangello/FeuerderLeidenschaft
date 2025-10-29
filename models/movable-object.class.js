@@ -68,5 +68,11 @@ moveLeftRight(levelStart = -750, levelEnd = 2250) {
     }
     hit(){
         this.health -= 20;
+        if(this.health < 0){
+            this.health = 0;
+        }
+}
+    isDead(){
+        return this.health == 0;    
 }
 }
