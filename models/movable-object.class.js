@@ -12,6 +12,7 @@ class MovableObject{
     acceleration = 2.5;
     direction= 'left';
     health = 100;
+    lastHit = 0;
 
 
 applyGravity() {
@@ -66,12 +67,21 @@ moveLeftRight(levelStart = -750, levelEnd = 2250) {
             this.y + this.height > mo.y &&
             this.y < mo.y + mo.height;
     }
-    hit(){
-        this.health -= 20;
-        if(this.health < 0){
-            this.health = 0;
-        }
+hit() {
+    if (this.isHurt()) return; 
+    this.health -= 20;
+    if (this.health < 0) {
+        this.health = 0;
+    } else {
+        this.lastHit = new Date().getTime();
+    }
+
 }
+    isHurt(){
+        let timepassed = new Date().getTime() - this.lastHit; //Difference in ms
+        timepassed = timepassed / 1000; //Difference in s
+        return timepassed < 3;
+    }
     isDead(){
         return this.health == 0;    
 }
