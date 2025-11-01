@@ -1,11 +1,5 @@
-class MovableObject{
-    x = 100 ;
-    y = 250 ;
-    img;
-    height = 150;
-    width = 100;
-    imageCache = [];
-    currentImage = 0;
+class MovableObject extends DrawableObject {
+
     speed = 0.2;
     otherDirection = false;
     speedY = 1.5;
@@ -31,18 +25,6 @@ applyGravity() {
     }   ;
 
 
-    loadImage(path){
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(arr){
-        arr.forEach((path) => {
-        let img = new Image();
-        img.src = path;
-        this.imageCache[path] = img;
-        });
-    }
 
 moveLeftRight(levelStart = -750, levelEnd = 2250) {
         setInterval(() => {
@@ -74,6 +56,9 @@ hit() {
         this.health = 0;
     } else {
         this.lastHit = new Date().getTime();
+    }
+        if (this.world && this.world.statusBar) {
+        this.world.statusBar.setPercent(this.health);
     }
 
 }

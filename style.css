@@ -4,8 +4,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: blueviolet;
-
+    background-image: url('/img/nevada-8338929_1920.jpg');
+    background-size: cover;
+    height: 100vh;
 
 }
 

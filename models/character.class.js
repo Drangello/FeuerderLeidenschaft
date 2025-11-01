@@ -117,7 +117,7 @@ class Character extends MovableObject {
                 this.playIdleAnimation();
             }
         }
-        }, 100);
+        }, 120);
     }
 
     playWalkingAnimation() {

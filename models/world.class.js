@@ -1,16 +1,19 @@
 class World {
 
     character = new Character();
+    statusBar = new StatusBar();
     level = level1;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
 
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        
         this.draw();
         this.setWorld();
         this.checkCollisions();
@@ -42,10 +45,10 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
-        
-
         this.ctx.translate(-this.camera_x, 0);
         
+        this.statusBar.draw(this.ctx);
+
 
         //Draw() wird immer wieder aufgerufen
         let self = this;
