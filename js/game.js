@@ -16,7 +16,7 @@ window.addEventListener("keydown", (e) => {
         if(e.keyCode == 65){
         keyboard.LEFT = true;
     }
-        if(e.keyCode == 87){
+        if(e.keyCode == 73){
         keyboard.UP = true;
     }
         if(e.keyCode == 83){
@@ -36,7 +36,7 @@ window.addEventListener("keyup", (e) => {
         if(e.keyCode == 65){
         keyboard.LEFT = false;
     }
-        if(e.keyCode == 87){
+        if(e.keyCode == 73){
         keyboard.UP = false;
     }
         if(e.keyCode == 83){

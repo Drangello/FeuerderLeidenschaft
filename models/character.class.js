@@ -91,6 +91,13 @@ class Character extends MovableObject {
             if(this.isAboveGround() && this.isJumping) {
                 this.isJumping = false;
             }
+            if (this.world.keyboard.UP && !this.throwCooldown) {
+             this.world.throwBottle();
+             this.throwCooldown = true;
+
+    // kurze Abklingzeit, damit man nicht spammen kann
+    setTimeout(() => this.throwCooldown = false, 500);
+}
         }, 1000 / 60);
             
 

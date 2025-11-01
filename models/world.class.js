@@ -7,6 +7,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    throwableObjects = [new ThrowableObject()];
 
 
     constructor(canvas, keyboard) {
@@ -22,6 +23,13 @@ class World {
     setWorld(){ 
         this.character.world = this;
     }
+throwBottle() {
+    const x = this.character.x + (this.character.otherDirection ? -50 : 100);
+    const y = this.character.y + 100;
+    const bottle = new ThrowableObject(x, y, this.character.otherDirection);
+    this.throwableObjects.push(bottle);
+}
+
     
 
     checkCollisions(){
@@ -30,7 +38,18 @@ class World {
              if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 console.log('Collision with enemy detected', this.character.health);
+                
              }
+            });
+        }, 200);
+
+             this.throwableObjects.forEach(bottle => {
+        this.level.enemies.forEach(enemy => {
+        if (bottle.isColliding(enemy)) {
+            enemy.hit(); // oder enemy.dead = true;
+            bottle.remove = true;
+        }
+
     });
     }, 200);
     }
@@ -45,6 +64,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         
         this.statusBar.draw(this.ctx);
@@ -70,6 +90,7 @@ class World {
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1 ;
         }
+        
 this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
 
 if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss) {
