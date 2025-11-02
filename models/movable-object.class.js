@@ -48,14 +48,26 @@ moveLeftRight(levelStart = -750, levelEnd = 2250) {
 
     remove() {
         this.isRemoved = true;
-            
+
     };
-            isColliding(mo) {
-        return this.x + this.width > mo.x &&   
-            this.x < mo.x + mo.width &&
-            this.y + this.height > mo.y &&
-            this.y < mo.y + mo.height;
-    }
+isColliding(mo) {
+    // Berechne die Hitbox des aktuellen Objekts
+    const ax = this.x + (this.hitboxOffsetX || 0);
+    const ay = this.y + (this.hitboxOffsetY || 0);
+    const aw = (this.hitboxWidth || this.width);
+    const ah = (this.hitboxHeight || this.height);
+
+    // Berechne die Hitbox des anderen Objekts
+    const bx = mo.x + (mo.hitboxOffsetX || 0);
+    const by = mo.y + (mo.hitboxOffsetY || 0);
+    const bw = (mo.hitboxWidth || mo.width);
+    const bh = (mo.hitboxHeight || mo.height);
+
+    return ax + aw > bx &&
+           ax < bx + bw &&
+           ay + ah > by &&
+           ay < by + bh;
+}
 hit() {
     if (this.isHurt()) return; 
     this.health -= 20;

@@ -62,6 +62,20 @@ checkCollisions() {
 
         // === Alte Flaschen entfernen ===
         this.throwableObjects = this.throwableObjects.filter(obj => !obj.isRemoved);
+if (this.level.coins) {
+    this.level.coins.forEach((coin) => {
+        if (this.character.isColliding(coin)) {
+            if (!this.character.extraJumpAvailable) {
+                this.character.extraJumpAvailable = true;
+                console.log('Double Jump aufgeladen!');
+                coin.remove(); // 🪙 Coin verschwindet nach Aktivierung
+            }
+        }
+    });
+
+    // Entferne Coins, die markiert wurden
+    this.level.coins = this.level.coins.filter(c => !c.isRemoved);
+}
 
     }, 1000 / 25);
 }
@@ -77,6 +91,7 @@ checkCollisions() {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.level.coins);
         this.throwableObjects = this.throwableObjects.filter(obj => !obj.isRemoved);
         this.ctx.translate(-this.camera_x, 0);
         this.level.enemies = this.level.enemies.filter(enemy => !enemy.isRemoved);

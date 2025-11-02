@@ -9,6 +9,11 @@ class Character extends MovableObject {
     jumpHeight = 25;
     health = 100;
     isJumping = false;
+    hitboxOffsetX = 10;  // Abstand links/rechts vom Rand
+    hitboxOffsetY = 200; // Abstand oben (damit die Hitbox niedriger ist)
+    hitboxWidth = this.width - 80;  // Breite minus links + rechts
+    hitboxHeight = this.height - 150; // Höhe reduzieren
+
 
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -83,9 +88,18 @@ class Character extends MovableObject {
                 this.otherDirection = true;
             }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isJumping) {
-                this.jump();
-            }
+           if (this.world.keyboard.SPACE) {
+    // Normalsprung
+    if (!this.isAboveGround() && !this.isJumping) {
+        this.jump();
+    }
+    // Doppelsprung durch Coin
+    else if (this.isAboveGround() && this.extraJumpAvailable) {
+        this.extraJumpAvailable = false; // Doppelsprung verbrauchen
+        this.jump();
+        console.log('Double Jump genutzt!');
+    }
+}
             this.world.camera_x = -this.x + 120;
 
             if(this.isAboveGround() && this.isJumping) {
