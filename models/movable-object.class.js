@@ -27,21 +27,28 @@ applyGravity() {
 
 
 moveLeftRight(levelStart = -750, levelEnd = 2250) {
-        setInterval(() => {
-            if (this.direction === "left") {
-                this.x -= this.speed;
-                this.otherDirection = false;
-                if (this.x <= levelStart) {
-                    this.direction = "right";
-                }
-            } else {
-                this.x += this.speed;
-                this.otherDirection = true;
-                if (this.x + this.width >= levelEnd) {
-                    this.direction = "left";
-                }
+    const interval = setInterval(() => {
+        if (this.direction === "left") {
+            this.x -= this.speed;
+            this.otherDirection = false;
+            if (this.x <= levelStart) {
+                this.direction = "right";
             }
-        }, 1000 / 60);
+        } else {
+            this.x += this.speed;
+            this.otherDirection = true;
+            if (this.x + this.width >= levelEnd) {
+                this.direction = "left";
+            }
+        }
+    }, 1000 / 60);
+
+    return interval; // <--- das ist neu!
+}
+
+    remove() {
+        this.isRemoved = true;
+            
     };
             isColliding(mo) {
         return this.x + this.width > mo.x &&   
@@ -54,6 +61,7 @@ hit() {
     this.health -= 20;
     if (this.health < 0) {
         this.health = 0;
+        this.die?.();
     } else {
         this.lastHit = new Date().getTime();
     }

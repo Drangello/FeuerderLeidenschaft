@@ -26,33 +26,45 @@ class World {
 throwBottle() {
     const x = this.character.x + (this.character.otherDirection ? -50 : 100);
     const y = this.character.y + 100;
-    const bottle = new ThrowableObject(x, y, this.character.otherDirection);
+    const bottle = new ThrowableObject(x, y, this.character.otherDirection, this);
     this.throwableObjects.push(bottle);
 }
 
     
 
-    checkCollisions(){
-        setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-             if (this.character.isColliding(enemy)) {
+checkCollisions() {
+    setInterval(() => {
+        // === Character vs Enemy ===
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 console.log('Collision with enemy detected', this.character.health);
-                
-             }
+            }
+        });
+
+        // === Bottle vs Enemy ===
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy) && !enemy.isDead()) {
+                    enemy.hit();
+                    bottle.remove();
+                    console.log('Bottle hit enemy! Enemy health:', enemy.health);
+
+                    // Optional: Gegner "sterben" lassen, falls health = 0
+                    if (enemy.isDead()) {
+                        console.log('Enemy is dead!');
+                        // Gegner optional aus dem Level entfernen:
+                        // this.level.enemies = this.level.enemies.filter(e => !e.isDead());
+                    }
+                }
             });
-        }, 200);
+        });
 
-             this.throwableObjects.forEach(bottle => {
-        this.level.enemies.forEach(enemy => {
-        if (bottle.isColliding(enemy)) {
-            enemy.hit(); // oder enemy.dead = true;
-            bottle.remove = true;
-        }
+        // === Alte Flaschen entfernen ===
+        this.throwableObjects = this.throwableObjects.filter(obj => !obj.isRemoved);
 
-    });
-    }, 200);
-    }
+    }, 1000 / 25);
+}
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -65,7 +77,9 @@ throwBottle() {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
+        this.throwableObjects = this.throwableObjects.filter(obj => !obj.isRemoved);
         this.ctx.translate(-this.camera_x, 0);
+        this.level.enemies = this.level.enemies.filter(enemy => !enemy.isRemoved);
         
         this.statusBar.draw(this.ctx);
 
