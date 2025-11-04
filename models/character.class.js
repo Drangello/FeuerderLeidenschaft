@@ -210,8 +210,10 @@ class Character extends MovableObject {
                 this.img = this.imageCache[path];
                 i++;
             } else {
-                clearInterval(interval);
-                this.img = this.imageCache[this.images_dead[this.images_dead.length - 1]];
+            clearInterval(interval);
+this.img = this.imageCache[this.images_dead[this.images_dead.length - 1]];
+this.world.showEndScreen("lose");
+
             }
         }, 150);
     }

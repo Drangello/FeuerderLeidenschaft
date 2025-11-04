@@ -182,5 +182,17 @@ if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss) {
             
         }
 }
+showEndScreen(result) {
+    const endScreen = document.getElementById("end-screen");
+    const endText = document.getElementById("end-text");
+
+    if (result === "win") {
+        endText.innerText = "🎉 Du hast den Endboss besiegt! 🎉";
+    } else {
+        endText.innerText = "💀 Du bist gestorben! 💀";
+    }
+
+    endScreen.classList.remove("hidden");
+}
 
 }

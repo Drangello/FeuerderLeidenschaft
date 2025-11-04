@@ -11,8 +11,49 @@ body {
 }
 
 canvas {
-        display: block;
-        margin: 0;
-        background: url('img/5_background/layers/air.png');
-        background-size: cover;
+    display: block;
+    margin: 0;
+    background: url('img/5_background/layers/air.png');
+    background-size: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 720px;
+  height: 480px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  z-index: 5;
+}
+
+.hidden {
+  display: none;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  background-color: crimson;
+  color: white;
+  transition: 0.3s;
+}
+
+button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: firebrick;
 }

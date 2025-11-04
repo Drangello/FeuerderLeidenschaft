@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpanischeFeuerderLeidenschaft</title>
     <link rel="stylesheet" href="style.css">
-
-        <script src="./models/drawable-object.class.js"></script>
-        <script src="./models/movable-object.class.js"></script>
-        <script src="./models/character.class.js"></script>
-        <script src="./models/coin.class.js"></script>  
-        <script src="./models/chicken.class.js"></script>
-        <script src="./models/mana-bottle.class.js"></script>
-        <script src="./models/cloud.class.js"></script>
-        <script src="./models/background-object.class.js"></script>
-        <script src="./models/keyboard.class.js"></script>
-        <script src="./models/throwable-object.class.js"></script>  
-        <script src="./models/endboss.class.js"></script>  
-        <script src="./models/status-bar.class.js"></script>
-        <script src="./models/mana-bar.class.js"></script>
-        <script src="./models/level.class.js"></script>
-        <script src="./js/levels/level1.js"></script>
-        <script src="./models/world.class.js"></script>
-        <script src="./js/game.js"></script>
 </head>
-<body onload="init()">
 
+<body>
     <h1>Spanisches Feuer der Leidenschaft</h1>
-    
-    <canvas id="canvas" width="720px" height="480px">
 
-    </canvas>
+    <div id="game-container" style="position: relative; width: 720px; height: 480px;">
+        <canvas id="canvas" width="720" height="480"></canvas>
+
+        <!-- Start-Screen -->
+        <div id="start-screen" class="overlay">
+            <h2>🔥 Spanisches Feuer der Leidenschaft 🔥</h2>
+            <button id="start-btn" disabled onclick="startGame()">Spiel starten</button>
+        </div>
+
+        <!-- End-Screen -->
+        <div id="end-screen" class="overlay hidden">
+            <h2 id="end-text"></h2>
+            <button onclick="restartGame()">Nochmal spielen</button>
+        </div>
+    </div>
+
+    <!-- Deine Scripts bleiben unverändert -->
+    <script src="./models/drawable-object.class.js"></script>
+    <script src="./models/movable-object.class.js"></script>
+    <script src="./models/character.class.js"></script>
+    <script src="./models/coin.class.js"></script>
+    <script src="./models/chicken.class.js"></script>
+    <script src="./models/mana-bottle.class.js"></script>
+    <script src="./models/cloud.class.js"></script>
+    <script src="./models/background-object.class.js"></script>
+    <script src="./models/keyboard.class.js"></script>
+    <script src="./models/throwable-object.class.js"></script>
+    <script src="./models/endboss.class.js"></script>
+    <script src="./models/status-bar.class.js"></script>
+    <script src="./models/mana-bar.class.js"></script>
+    <script src="./models/level.class.js"></script>
+    <script src="./js/levels/level1.js"></script>
+    <script src="./models/world.class.js"></script>
+    <script src="./js/game.js"></script>
 </body>
-</html> 
+
+</html>

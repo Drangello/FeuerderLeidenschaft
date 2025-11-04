@@ -2,12 +2,29 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-function init(){
+/** Dein unverändertes init() */
+function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-
 }
 
+/** Spiel starten */
+function startGame() {
+    document.getElementById("start-screen").classList.add("hidden");
+    init();
+}
+
+/** Spiel neustarten */
+function restartGame() {
+    location.reload();
+}
+
+/** Sobald alles geladen ist, wird der Button aktiv */
+window.addEventListener("load", () => {
+    const startBtn = document.getElementById("start-btn");
+    startBtn.textContent = "Spiel starten";
+    startBtn.disabled = false;
+});
 
 window.addEventListener("keydown", (e) => {
     if(e.keyCode == 68){
