@@ -7,7 +7,7 @@ class Endboss extends MovableObject {
     health = 100;
     isAwake = false;
     isWakingUp = false;
-    sightRange = 1000; // "Sichtweite" in Pixeln
+    sightRange = 500; // "Sichtweite" in Pixeln
 
     // === Animationen ===
     images_alert = [
@@ -27,6 +27,11 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G15.png',
         'img/4_enemie_boss_chicken/3_attack/G16.png'
     ];
+    images_hurt = [
+    'img/4_enemie_boss_chicken/4_hurt/G21.png',
+    'img/4_enemie_boss_chicken/4_hurt/G22.png',
+    'img/4_enemie_boss_chicken/4_hurt/G23.png'
+];
 
     images_walking = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -34,6 +39,11 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/1_walk/G3.png',
         'img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
+    images_dead = [
+    'img/4_enemie_boss_chicken/5_dead/G24.png',
+    'img/4_enemie_boss_chicken/5_dead/G25.png',
+    'img/4_enemie_boss_chicken/5_dead/G26.png'
+];
 
     constructor() {
         super();
@@ -41,6 +51,8 @@ class Endboss extends MovableObject {
         this.loadImages(this.images_alert);
         this.loadImages(this.images_wakeup);
         this.loadImages(this.images_walking);
+        this.loadImages(this.images_hurt);
+        this.loadImages(this.images_dead);
         this.animate();
     }
 
@@ -101,6 +113,47 @@ class Endboss extends MovableObject {
             }
         }
     }
+    playHurtAnimation() {
+    if (this.hurtAnimationRunning) return;
+    this.hurtAnimationRunning = true;
+    let i = 0;
+    const interval = setInterval(() => {
+        if (i < this.images_hurt.length) {
+            this.img = this.imageCache[this.images_hurt[i]];
+            i++;
+        } else {
+            clearInterval(interval);
+            this.hurtAnimationRunning = false;
+        }
+    }, 150);
+}
+die() {
+    if (this.deadAnimationRunning) return;
+    this.deadAnimationRunning = true;
+    this.speed = 0;
+
+    let repeat = 0;
+    const playOnce = () => {
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < this.images_dead.length) {
+                this.img = this.imageCache[this.images_dead[i]];
+                i++;
+            } else {
+                clearInterval(interval);
+                repeat++;
+                if (repeat < 3) {
+                    playOnce(); // 🔁 nochmal abspielen
+                } else {
+                    this.remove();
+                    this.world.showEndScreen("win");
+                    console.log(" Endboss besiegt! 3x Animation gespielt.");
+                }
+            }
+        }, 200);
+    };
+    playOnce();
+}
 
     playAnimation(images) {
         const i = this.currentImage % images.length;

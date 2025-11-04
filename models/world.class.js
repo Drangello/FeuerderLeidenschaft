@@ -158,6 +158,7 @@ if (!boss.isAwake && !boss.isWakingUp && distance < 500) { // 👈 500 = "Sichtw
     }
 
     addToMap(mo) {
+        if (!mo || !mo.img || !mo.img.complete) return;
         if(mo.otherDirection){
             this.ctx.save();
             this.ctx.translate(mo.width, 0);

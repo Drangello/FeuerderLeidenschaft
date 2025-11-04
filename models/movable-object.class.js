@@ -72,11 +72,12 @@ hit() {
     if (this.isHurt()) return;
     this.health -= 20;
 
-    if (this.health < 0) {
+    if (this.health <= 0) {
         this.health = 0;
         this.die?.();
     } else {
         this.lastHit = new Date().getTime();
+        this.playHurtAnimation?.();
     }
     if (this instanceof Character && this.world && this.world.statusBar) {
         this.world.statusBar.setPercent(this.health);
