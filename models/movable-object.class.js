@@ -69,15 +69,16 @@ isColliding(mo) {
            ay < by + bh;
 }
 hit() {
-    if (this.isHurt()) return; 
+    if (this.isHurt()) return;
     this.health -= 20;
+
     if (this.health < 0) {
         this.health = 0;
         this.die?.();
     } else {
         this.lastHit = new Date().getTime();
     }
-        if (this.world && this.world.statusBar) {
+    if (this instanceof Character && this.world && this.world.statusBar) {
         this.world.statusBar.setPercent(this.health);
     }
 

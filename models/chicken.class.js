@@ -1,4 +1,4 @@
-class Chicken extends MovableObject{  
+class Chicken extends MovableObject {
     y = 350;
     width = 100;
     height = 100;
@@ -9,7 +9,7 @@ class Chicken extends MovableObject{
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
 
-    constructor(){
+    constructor() {
         super();
         this.loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.images_walking);
@@ -20,26 +20,33 @@ class Chicken extends MovableObject{
     }
 
     animate() {
-    this.movingInterval = this.moveLeftRight(0, 2250);
+        this.movingInterval = this.moveLeftRight(0, 2250);
 
-    this.walkingAnimation = setInterval(() => {
-        let i = this.currentImage % this.images_walking.length;
-        let path = this.images_walking[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
-    }, 100);
+        this.walkingAnimation = setInterval(() => {
+            let i = this.currentImage % this.images_walking.length;
+            let path = this.images_walking[i];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+        }, 100);
     }
-    
-die() {
-    clearInterval(this.walkingAnimation);
-    clearInterval(this.movingInterval);
 
-    this.loadImage('img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
-    this.speed = 0;
+    die() {
+        clearInterval(this.walkingAnimation);
+        clearInterval(this.movingInterval);
 
-    // Entferne das Chicken nach kurzer Zeit
-    setTimeout(() => {
-        this.isRemoved = true;
-    }, 1500);
-};
+        this.loadImage('img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
+        this.speed = 0;
+
+        // Entferne das Chicken nach kurzer Zeit
+        setTimeout(() => {
+            this.isRemoved = true;
+
+            // Flasche droppen beim Tod
+            if (this.world) {
+                const bottle = new ManaBottle(this.x, this.y);
+                this.world.manaBottles.push(bottle);
+                console.log("Chicken dropped a mana bottle!");
+            }
+        }, 1500);
+    };
 }

@@ -8,6 +8,8 @@ class Character extends MovableObject {
     acceleration = 2;
     jumpHeight = 25;
     health = 100;
+    mana = 5;
+    maxMana = 5;
     isJumping = false;
     hitboxOffsetX = 10;  // Abstand links/rechts vom Rand
     hitboxOffsetY = 200; // Abstand oben (damit die Hitbox niedriger ist)
@@ -23,7 +25,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ];
-        images_jumping = [
+    images_jumping = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
@@ -70,74 +72,78 @@ class Character extends MovableObject {
         this.loadImages(this.images_dead);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_idele);
-        this.applyGravity();    
+        this.applyGravity();
         this.animate();
     }
 
     animate() {
-                setInterval(() => {
+        setInterval(() => {
             if (this.isDead()) return;
 
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
             }
 
-            if(this.world.keyboard.LEFT && this.x > -600){
+            if (this.world.keyboard.LEFT && this.x > -600) {
                 this.x -= this.speed;
                 this.otherDirection = true;
             }
 
-           if (this.world.keyboard.SPACE) {
-    // Normalsprung
-    if (!this.isAboveGround() && !this.isJumping) {
-        this.jump();
-    }
-    // Doppelsprung durch Coin
-    else if (this.isAboveGround() && this.extraJumpAvailable) {
-        this.extraJumpAvailable = false; // Doppelsprung verbrauchen
-        this.jump();
-        console.log('Double Jump genutzt!');
-    }
-}
+            if (this.world.keyboard.SPACE) {
+                // Normalsprung
+                if (!this.isAboveGround() && !this.isJumping) {
+                    this.jump();
+                }
+                // Doppelsprung durch Coin
+                else if (this.isAboveGround() && this.extraJumpAvailable) {
+                    this.extraJumpAvailable = false; // Doppelsprung verbrauchen
+                    this.jump();
+                    console.log('Double Jump genutzt!');
+                }
+            }
             this.world.camera_x = -this.x + 120;
 
-            if(this.isAboveGround() && this.isJumping) {
+            if (this.isAboveGround() && this.isJumping) {
                 this.isJumping = false;
             }
             if (this.world.keyboard.UP && !this.throwCooldown) {
-             this.world.throwBottle();
-             this.throwCooldown = true;
-
-    // kurze Abklingzeit, damit man nicht spammen kann
-    setTimeout(() => this.throwCooldown = false, 500);
-}
+                if (this.mana > 0) {
+                    this.world.throwBottle();
+                    this.mana--;
+                    this.throwCooldown = true;
+                    setTimeout(() => this.throwCooldown = false, 500);
+                    console.log(`Bottle thrown! Remaining mana: ${this.mana}`);
+                } else {
+                    console.log("No mana left!");
+                }
+            }
         }, 1000 / 60);
-            
+
 
         setInterval(() => {
             if (this.isDead()) {
                 this.playDeadAnimation();
                 return;
             }
-            else if(this.isJumping){
+            else if (this.isJumping) {
                 return;
             }
             else if (this.isAboveGround()) {
                 return;
             }
             else if (this.isHurt()) {
-            this.playHurtAnimation();
+                this.playHurtAnimation();
                 return;
             }
             else if (!this.isAboveGround()) {
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playWalkingAnimation();
+                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    this.playWalkingAnimation();
+                }
+                else {
+                    this.playIdleAnimation();
+                }
             }
-            else {
-                this.playIdleAnimation();
-            }
-        }
         }, 120);
     }
 
@@ -154,26 +160,26 @@ class Character extends MovableObject {
         this.playJumpAnimation(); // Animation einmalig starten
     }
     playHurtAnimation() {
-    if (this.hurtAnimationRunning) return; // Wenn schon läuft, nicht nochmal starten
-    this.hurtAnimationRunning = true;
+        if (this.hurtAnimationRunning) return; // Wenn schon läuft, nicht nochmal starten
+        this.hurtAnimationRunning = true;
 
-    let i = 0;
-    let interval = setInterval(() => {
-        if (i < this.images_hurt.length) {
-            let path = this.images_hurt[i];
-            this.img = this.imageCache[path];
-            i++;
-        } else {
-            i = 0; // Wiederhole, solange "hurt" aktiv
-        }
+        let i = 0;
+        let interval = setInterval(() => {
+            if (i < this.images_hurt.length) {
+                let path = this.images_hurt[i];
+                this.img = this.imageCache[path];
+                i++;
+            } else {
+                i = 0; // Wiederhole, solange "hurt" aktiv
+            }
 
-        // Nach 3 Sekunden Animation stoppen
-        if (!this.isHurt()) {
-            clearInterval(interval);
-            this.hurtAnimationRunning = false;
-        }
-    }, 150); // Geschwindigkeit der Hurt-Bilder
-}
+            // Nach 3 Sekunden Animation stoppen
+            if (!this.isHurt()) {
+                clearInterval(interval);
+                this.hurtAnimationRunning = false;
+            }
+        }, 150); // Geschwindigkeit der Hurt-Bilder
+    }
 
     playJumpAnimation() {
         if (this.jumpAnimationRunning) return; // schon aktiv → nicht nochmal starten
@@ -212,9 +218,9 @@ class Character extends MovableObject {
     playIdleAnimation() {
         let i = this.currentImage % this.images_idele.length;
         let path = this.images_idele[i];
-    if (this.imageCache[path]) {
-        this.img = this.imageCache[path];
-    }
-    this.currentImage++;
+        if (this.imageCache[path]) {
+            this.img = this.imageCache[path];
+        }
+        this.currentImage++;
     }
 }

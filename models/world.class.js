@@ -8,6 +8,7 @@ class World {
     keyboard;
     camera_x = 0;
     throwableObjects = [new ThrowableObject()];
+    manaBottles = [];
 
 
     constructor(canvas, keyboard) {
@@ -22,6 +23,7 @@ class World {
 
     setWorld(){ 
         this.character.world = this;
+        this.level.enemies.forEach(e => e.world = this);
     }
 throwBottle() {
     const x = this.character.x + (this.character.otherDirection ? -50 : 100);
@@ -59,7 +61,21 @@ checkCollisions() {
                 }
             });
         });
-
+// === ManaBottle aufsammeln ===
+this.manaBottles.forEach((bottle) => {
+    if (this.character.isColliding(bottle)) {
+        // Nur aufheben, wenn Mana noch nicht voll ist
+        if (this.character.mana < this.character.maxMana) {
+            bottle.remove();
+            this.character.mana = Math.min(this.character.mana + 2, this.character.maxMana);
+            console.log(`Mana bottle collected! Mana: ${this.character.mana}`);
+        } else {
+            // Optional: kurze Meldung, wenn Mana bereits voll ist
+            console.log("Mana already full – bottle ignored.");
+        }
+    }
+});
+this.manaBottles = this.manaBottles.filter(b => !b.isRemoved);
         // === Alte Flaschen entfernen ===
         this.throwableObjects = this.throwableObjects.filter(obj => !obj.isRemoved);
 if (this.level.coins) {
@@ -92,6 +108,8 @@ if (this.level.coins) {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.manaBottles);
+        this.manaBottles = this.manaBottles.filter(b => !b.isRemoved);
         this.throwableObjects = this.throwableObjects.filter(obj => !obj.isRemoved);
         this.ctx.translate(-this.camera_x, 0);
         this.level.enemies = this.level.enemies.filter(enemy => !enemy.isRemoved);
