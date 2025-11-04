@@ -3,10 +3,14 @@ class Endboss extends MovableObject {
     x = 2500;
     width = 300;
     height = 400;
-    speed = 0;
-    health = 99;
+    speed = 2.5;
+    health = 100;
+    isAwake = false;
+    isWakingUp = false;
+    sightRange = 1000; // "Sichtweite" in Pixeln
 
-    images_walking = [
+    // === Animationen ===
+    images_alert = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
         'img/4_enemie_boss_chicken/2_alert/G7.png',
@@ -16,21 +20,91 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
+
+    images_wakeup = [
+        'img/4_enemie_boss_chicken/3_attack/G13.png',
+        'img/4_enemie_boss_chicken/3_attack/G14.png',
+        'img/4_enemie_boss_chicken/3_attack/G15.png',
+        'img/4_enemie_boss_chicken/3_attack/G16.png'
+    ];
+
+    images_walking = [
+        'img/4_enemie_boss_chicken/1_walk/G1.png',
+        'img/4_enemie_boss_chicken/1_walk/G2.png',
+        'img/4_enemie_boss_chicken/1_walk/G3.png',
+        'img/4_enemie_boss_chicken/1_walk/G4.png'
+    ];
+
     constructor() {
         super();
-        this.loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
+        this.loadImage(this.images_alert[0]);
+        this.loadImages(this.images_alert);
+        this.loadImages(this.images_wakeup);
         this.loadImages(this.images_walking);
-        this.x = 2000;
         this.animate();
     }
-    animate() {
-        this.moveLeftRight(0, 2250);
 
+    animate() {
+        // Haupt-Loop des Bosses
         setInterval(() => {
-            let i = this.currentImage % this.images_walking.length;
-            let path = this.images_walking[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
-        }, 100);
+            // Wenn der Boss eine World-Referenz hat (damit wir Character-Daten bekommen)
+            if (this.world && this.world.character) {
+                const distance = Math.abs(this.world.character.x - this.x);
+
+                // Spieler innerhalb der Sichtweite → aufwachen
+                if (!this.isAwake && !this.isWakingUp && distance < this.sightRange) {
+                    this.isWakingUp = true;
+                    console.log("🔥 Endboss hat dich gesehen und wacht auf!");
+                }
+            }
+
+            // Zustandswechsel & Animationen
+            if (this.isWakingUp) {
+                this.playWakeupOnce();
+            } else if (this.isAwake) {
+                this.moveAndWalkAnimation();
+            } else {
+                this.playAnimation(this.images_alert);
+            }
+        }, 150);
+    }
+
+    /** Führt die Aufwachanimation genau einmal aus */
+    playWakeupOnce() {
+        this.isWakingUp = false;
+        let i = 0;
+        const interval = setInterval(() => {
+            this.img = this.imageCache[this.images_wakeup[i]];
+            i++;
+            if (i >= this.images_wakeup.length) {
+                clearInterval(interval);
+                this.isAwake = true;
+                console.log("Endboss ist jetzt aktiv!");
+            }
+        }, 150);
+    }
+
+    /** Bewegung und Lauf-Animation nach dem Aufwachen */
+    moveAndWalkAnimation() {
+        this.playAnimation(this.images_walking);
+
+        // einfache Verfolgung des Charakters
+        if (this.world && this.world.character) {
+            const charX = this.world.character.x;
+
+            if (this.x > charX + 50) {
+                this.x -= this.speed;
+                this.otherDirection = false;
+            } else if (this.x < charX - 50) {
+                this.x += this.speed;
+                this.otherDirection = true;
+            }
+        }
+    }
+
+    playAnimation(images) {
+        const i = this.currentImage % images.length;
+        this.img = this.imageCache[images[i]];
+        this.currentImage++;
     }
 }

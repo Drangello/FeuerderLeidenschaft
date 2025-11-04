@@ -24,6 +24,7 @@ class World {
     setWorld(){ 
         this.character.world = this;
         this.level.enemies.forEach(e => e.world = this);
+        if (this.level.endboss) this.level.endboss.world = this;
     }
 throwBottle() {
     const x = this.character.x + (this.character.otherDirection ? -50 : 100);
@@ -87,6 +88,30 @@ if (this.level.coins) {
                 coin.remove(); // 🪙 Coin verschwindet nach Aktivierung
             }
         }
+        if (this.level.endboss) {
+    const boss = this.level.endboss;
+
+const distance = Math.abs(this.character.x - boss.x); // Entfernung zwischen Spieler und Boss
+
+if (!boss.isAwake && !boss.isWakingUp && distance < 500) { // 👈 500 = "Sichtweite" in Pixeln
+    boss.isWakingUp = true;
+    console.log("Endboss hat dich gesehen und wacht auf!");
+}
+
+    // Wenn Boss aktiv ist → läuft nach links/rechts
+    if (boss.isAwake) {
+        // einfache Patrouille oder Verfolgung
+        if (boss.direction === "left" || boss.direction === undefined) {
+            boss.x -= boss.speed;
+            boss.otherDirection = false;
+            if (boss.x < 2000) boss.direction = "right";
+        } else {
+            boss.x += boss.speed;
+            boss.otherDirection = true;
+            if (boss.x > 2600) boss.direction = "left";
+        }
+    }
+}
     });
 
     // Entferne Coins, die markiert wurden
