@@ -9,7 +9,7 @@ class World {
     camera_x = 0;
     throwableObjects = [new ThrowableObject()];
     manaBottles = [];
-
+    manaBar = new ManaBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -115,6 +115,8 @@ if (this.level.coins) {
         this.level.enemies = this.level.enemies.filter(enemy => !enemy.isRemoved);
         
         this.statusBar.draw(this.ctx);
+        this.manaBar.setMana(this.character.mana, this.character.maxMana);
+        this.manaBar.draw(this.ctx);
 
 
         //Draw() wird immer wieder aufgerufen

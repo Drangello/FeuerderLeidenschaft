@@ -19,5 +19,9 @@ class DrawableObject {
         this.imageCache[path] = img;
         });
     }
-
+    draw(ctx) {
+    if (this.img) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+}
     }
