@@ -43,7 +43,7 @@ moveLeftRight(levelStart = -750, levelEnd = 2250) {
         }
     }, 1000 / 60);
 
-    return interval; // <--- das ist neu!
+    return interval; 
 }
 
     remove() {

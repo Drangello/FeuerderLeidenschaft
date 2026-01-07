@@ -66,7 +66,7 @@ class Endboss extends MovableObject {
                 // Spieler innerhalb der Sichtweite → aufwachen
                 if (!this.isAwake && !this.isWakingUp && distance < this.sightRange) {
                     this.isWakingUp = true;
-                    console.log("🔥 Endboss hat dich gesehen und wacht auf!");
+                    console.log("Endboss hat dich gesehen und wacht auf!");
                 }
             }
 
@@ -143,11 +143,11 @@ die() {
                 clearInterval(interval);
                 repeat++;
                 if (repeat < 3) {
-                    playOnce(); // 🔁 nochmal abspielen
+                    playOnce(); // nochmal abspielen
                 } else {
                     this.remove();
                     this.world.showEndScreen("win");
-                    console.log(" Endboss besiegt! 3x Animation gespielt.");
+                    console.log(" Endboss besiegt! ");
                 }
             }
         }, 200);

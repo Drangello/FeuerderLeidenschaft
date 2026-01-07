@@ -187,9 +187,9 @@ showEndScreen(result) {
     const endText = document.getElementById("end-text");
 
     if (result === "win") {
-        endText.innerText = "🎉 Du hast den Endboss besiegt! 🎉";
+        endText.innerText = " Du hast den Endboss besiegt!";
     } else {
-        endText.innerText = "💀 Du bist gestorben! 💀";
+        endText.innerText = " Du bist gestorben!";
     }
 
     endScreen.classList.remove("hidden");
