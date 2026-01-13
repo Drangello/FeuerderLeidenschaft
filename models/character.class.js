@@ -15,6 +15,9 @@ class Character extends MovableObject {
     hitboxOffsetY = 200; // Abstand oben (damit die Hitbox niedriger ist)
     hitboxWidth = this.width - 80;  // Breite minus links + rechts
     hitboxHeight = this.height - 150; // Höhe reduzieren
+    idleTime = 0;
+    sleepIdleAfter = 5000; // 5 Sekunden
+    isSleeping = false;
 
 
     images_walking = [
@@ -63,6 +66,18 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
+    images_sleep = [
+    'img/2_character_pepe/1_idle/long_idle/I-11.png',
+    'img/2_character_pepe/1_idle/long_idle/I-12.png',
+    'img/2_character_pepe/1_idle/long_idle/I-13.png',
+    'img/2_character_pepe/1_idle/long_idle/I-14.png',
+    'img/2_character_pepe/1_idle/long_idle/I-15.png',
+    'img/2_character_pepe/1_idle/long_idle/I-16.png',
+    'img/2_character_pepe/1_idle/long_idle/I-17.png',
+    'img/2_character_pepe/1_idle/long_idle/I-18.png',
+    'img/2_character_pepe/1_idle/long_idle/I-19.png',
+    'img/2_character_pepe/1_idle/long_idle/I-20.png'
+    ];
     world;
     constructor() {
         super();
@@ -72,12 +87,25 @@ class Character extends MovableObject {
         this.loadImages(this.images_dead);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_idele);
+        this.loadImages(this.images_sleep);
         this.applyGravity();
         this.animate();
     }
 
     animate() {
         setInterval(() => {
+            const isMoving =
+            this.world.keyboard.RIGHT ||
+            this.world.keyboard.LEFT ||
+            this.world.keyboard.SPACE ||
+            this.world.keyboard.UP;
+
+        if (isMoving || this.isHurt() || this.isAboveGround()) {
+            this.idleTime = 0;
+            this.isSleeping = false;
+        } else {
+            this.idleTime += 1000 / 60;
+    }   
             if (this.isDead()) return;
 
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -141,8 +169,12 @@ class Character extends MovableObject {
                     this.playWalkingAnimation();
                 }
                 else {
-                    this.playIdleAnimation();
-                }
+    if (this.idleTime >= this.sleepIdleAfter) {
+        this.playSleepIdleAnimation();
+    } else {
+        this.playIdleAnimation();
+    }
+}
             }
         }, 120);
     }
@@ -225,4 +257,17 @@ this.world.showEndScreen("lose");
         }
         this.currentImage++;
     }
+    playSleepIdleAnimation() {
+    this.isSleeping = true;
+
+    let i = this.currentImage % this.images_sleep.length;
+    let path = this.images_sleep[i];
+
+    if (this.imageCache[path]) {
+        this.img = this.imageCache[path];
+    }
+
+    this.currentImage++;
+}
+
 }
