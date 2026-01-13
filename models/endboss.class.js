@@ -8,6 +8,11 @@ class Endboss extends MovableObject {
     isAwake = false;
     isWakingUp = false;
     sightRange = 500; // "Sichtweite" in Pixeln
+    isSprinting = false;
+    sprintSpeed = 25;
+    normalSpeed = 2.5;
+    sprintDuration = 5000; // 5 Sekunden
+    sprintChance = 0.02; // 2% Chance pro Tick
 
     // === Animationen ===
     images_alert = [
@@ -57,29 +62,40 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        // Haupt-Loop des Bosses
-        setInterval(() => {
-            // Wenn der Boss eine World-Referenz hat (damit wir Character-Daten bekommen)
-            if (this.world && this.world.character) {
-                const distance = Math.abs(this.world.character.x - this.x);
 
-                // Spieler innerhalb der Sichtweite → aufwachen
-                if (!this.isAwake && !this.isWakingUp && distance < this.sightRange) {
-                    this.isWakingUp = true;
-                    console.log("Endboss hat dich gesehen und wacht auf!");
-                }
+    setInterval(() => {
+
+        if (this.world && this.world.character) {
+            const distance = Math.abs(this.world.character.x - this.x);
+
+            if (!this.isAwake && !this.isWakingUp && distance < this.sightRange) {
+                this.isWakingUp = true;
+            }
+        }
+
+        if (this.isWakingUp) {
+            this.playWakeupOnce();
+
+        } else if (this.isAwake) {
+
+            // 🔥 RANDOM SPRINT ATTACKE
+            if (!this.isSprinting && Math.random() < this.sprintChance) {
+                this.startSprintAttack();
             }
 
-            // Zustandswechsel & Animationen
-            if (this.isWakingUp) {
-                this.playWakeupOnce();
-            } else if (this.isAwake) {
-                this.moveAndWalkAnimation();
+            if (this.isSprinting) {
+                this.sprintToCharacter();
             } else {
-                this.playAnimation(this.images_alert);
+                this.moveAndWalkAnimation();
             }
-        }, 150);
-    }
+
+        } else {
+            this.playAnimation(this.images_alert);
+        }
+
+    }, 150);
+}
+
 
     /** Führt die Aufwachanimation genau einmal aus */
     playWakeupOnce() {
@@ -160,4 +176,40 @@ die() {
         this.img = this.imageCache[images[i]];
         this.currentImage++;
     }
+
+startSprintAttack() {
+    this.isSprinting = true;
+    this.speed = this.sprintSpeed;
+
+    // Alert EINMAL spielen
+    let i = 0;
+    const alertInterval = setInterval(() => {
+        this.img = this.imageCache[this.images_alert[i]];
+        i++;
+
+        if (i >= this.images_alert.length) {
+            clearInterval(alertInterval);
+
+            // ⏱ Sprint nach 5 Sekunden beenden
+            setTimeout(() => {
+                this.isSprinting = false;
+                this.speed = this.normalSpeed;
+            }, this.sprintDuration);
+        }
+    }, 120);
+}
+sprintToCharacter() {
+    if (!this.world || !this.world.character) return;
+
+    const charX = this.world.character.x;
+
+    if (this.x > charX) {
+        this.x -= this.speed;
+        this.otherDirection = false;
+    } else {
+        this.x += this.speed;
+        this.otherDirection = true;
+    }
+}
+
 }
