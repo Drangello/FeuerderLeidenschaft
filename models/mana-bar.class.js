@@ -28,7 +28,7 @@ class ManaBar extends DrawableObject {
         else if (percent >= 80) imageIndex = 4;
         else if (percent >= 60) imageIndex = 3;
         else if (percent >= 40) imageIndex = 2;
-        else if (percent > 20) imageIndex = 1;
+        else if (percent >= 20) imageIndex = 1;
         else imageIndex = 0;
 
         this.loadImage(this.IMAGES[imageIndex]);

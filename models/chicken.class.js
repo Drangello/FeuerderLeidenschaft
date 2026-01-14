@@ -43,10 +43,12 @@ class Chicken extends MovableObject {
 
             // Flasche droppen beim Tod
             if (this.world) {
-                const bottle = new ManaBottle(this.x, this.y);
-                this.world.manaBottles.push(bottle);
-                console.log("Chicken dropped a mana bottle!");
-            }
+    const bottle = new ManaBottle(
+        this.x + this.width / 2,
+        this.y + this.height - 50
+    );
+    this.world.manaBottles.push(bottle);
+}
         }, 1500);
     };
 }
