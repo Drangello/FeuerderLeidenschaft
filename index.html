@@ -11,7 +11,7 @@
 <body>
     <h1>Spanisches Feuer der Leidenschaft</h1>
 
-    <div id="game-container" style="position: relative; width: 720px; height: 480px;">
+    <div id="game-container">
         <canvas id="canvas" width="720" height="480"></canvas>
 
         <!-- Start-Screen -->
@@ -24,6 +24,22 @@
         <div id="end-screen" class="overlay hidden">
             <h2 id="end-text"></h2>
             <button onclick="restartGame()">Nochmal spielen</button>
+        </div>
+    </div>
+    <div id="rotate-overlay" class="overlay hidden">
+        <h2>Bitte drehe dein Gerät</h2>
+        <p>Für das beste Spielerlebniss für dich</p>
+    </div>
+
+    <div id="mobile-controls">
+        <div class="controls-left">
+            <button id="btn-left">⬅️</button>
+            <button id="btn-right">➡️</button>
+        </div>
+
+        <div class="controls-right">
+            <button id="btn-jump">⬆️</button>
+            <button id="btn-throw">🔥</button>
         </div>
     </div>
 

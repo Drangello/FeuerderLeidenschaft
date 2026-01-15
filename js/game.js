@@ -12,6 +12,8 @@ function init() {
 function startGame() {
     document.getElementById("start-screen").classList.add("hidden");
     init();
+    bindMobileControls();
+    checkOrientation();
 }
 
 /** Spiel neustarten */
@@ -27,42 +29,75 @@ window.addEventListener("load", () => {
 });
 
 window.addEventListener("keydown", (e) => {
-    if(e.keyCode == 68){
-        keyboard.RIGHT = true;
-    }
-        if(e.keyCode == 65){
-        keyboard.LEFT = true;
-    }
-        if(e.keyCode == 73){
-        keyboard.UP = true;
-    }
-        if(e.keyCode == 83){
-        keyboard.DOWN = true;
-    }
-        if(e.keyCode == 74){
-        keyboard.SPACE = true;
-    }
-
-        console.log(e);
-
+    if (e.keyCode === 65) keyboard.LEFT = true;   // A
+    if (e.keyCode === 68) keyboard.RIGHT = true;  // D
+    if (e.keyCode === 74) keyboard.JUMP = true;   // J
+    if (e.keyCode === 73) keyboard.THROW = true;  // I
 });
+
 window.addEventListener("keyup", (e) => {
-    if(e.keyCode == 68){
-        keyboard.RIGHT = false;
-    }
-        if(e.keyCode == 65){
-        keyboard.LEFT = false;
-    }
-        if(e.keyCode == 73){
-        keyboard.UP = false;
-    }
-        if(e.keyCode == 83){
-        keyboard.DOWN = false;
-    }
-        if(e.keyCode == 74){
-        keyboard.SPACE = false;
-    }
-
-        console.log(e);
-
+    if (e.keyCode === 65) keyboard.LEFT = false;
+    if (e.keyCode === 68) keyboard.RIGHT = false;
+    if (e.keyCode === 74) keyboard.JUMP = false;
+    if (e.keyCode === 73) keyboard.THROW = false;
 });
+
+function bindMobileControls() {
+    const left = document.getElementById("btn-left");
+    const right = document.getElementById("btn-right");
+    const jump = document.getElementById("btn-jump");
+    const throwBtn = document.getElementById("btn-throw");
+
+    if (!left) return;
+
+    left.addEventListener("touchstart", e => {
+        e.preventDefault();
+        keyboard.LEFT = true;
+    });
+    left.addEventListener("touchend", () => keyboard.LEFT = false);
+
+    right.addEventListener("touchstart", e => {
+        e.preventDefault();
+        keyboard.RIGHT = true;
+    });
+    right.addEventListener("touchend", () => keyboard.RIGHT = false);
+
+    jump.addEventListener("touchstart", e => {
+        e.preventDefault();
+        keyboard.JUMP = true;
+    });
+    jump.addEventListener("touchend", () => keyboard.JUMP = false);
+
+    throwBtn.addEventListener("touchstart", e => {
+        e.preventDefault();
+        keyboard.THROW = true;
+    });
+    throwBtn.addEventListener("touchend", () => keyboard.THROW = false);
+}
+function isTouchDevice() {
+    return (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0
+    );
+}
+
+function checkOrientation() {
+    if (!isTouchDevice()) return;
+
+    const isPortrait = window.innerHeight > window.innerWidth;
+    const rotateOverlay = document.getElementById("rotate-overlay");
+    const mobileControls = document.getElementById("mobile-controls");
+
+    if (isPortrait) {
+        rotateOverlay.classList.remove("hidden");
+        if (mobileControls) mobileControls.style.display = "none";
+    } else {
+        rotateOverlay.classList.add("hidden");
+        if (mobileControls) mobileControls.style.display = "flex";
+    }
+}
+
+window.addEventListener("resize", checkOrientation);
+window.addEventListener("orientationchange", checkOrientation);
+
+

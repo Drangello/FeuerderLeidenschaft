@@ -4,56 +4,159 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 12px;
+
     background-image: url('/img/nevada-8338929_1920.jpg');
     background-size: cover;
-    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
 
+    height: 100vh;
+    touch-action: none;
+    overscroll-behavior: none;
 }
 
-canvas {
-    display: block;
+/* =====================
+   HEADLINE
+===================== */
+
+h1 {
+    color: white;
+    text-align: center;
     margin: 0;
+}
+
+/* =====================
+   GAME CONTAINER
+===================== */
+
+#game-container {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 3 / 2; /* 720x480 */
+}
+
+/* =====================
+   CANVAS
+===================== */
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
     background: url('img/5_background/layers/air.png');
     background-size: cover;
 }
 
+/* =====================
+   OVERLAYS
+===================== */
+
 .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 720px;
-  height: 480px;
-  background: rgba(0, 0, 0, 0.85);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
-  z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    z-index: 5;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
+/* =====================
+   BUTTONS (GENERAL)
+===================== */
+
 button {
-  padding: 12px 24px;
-  font-size: 20px;
-  cursor: pointer;
-  border: none;
-  border-radius: 10px;
-  background-color: crimson;
-  color: white;
-  transition: 0.3s;
+    padding: 12px 24px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: crimson;
+    color: white;
+    transition: 0.3s;
 }
 
 button:disabled {
-  background-color: gray;
-  cursor: not-allowed;
+    background-color: gray;
+    cursor: not-allowed;
 }
 
 button:hover:not(:disabled) {
-  background-color: firebrick;
+    background-color: firebrick;
+}
+
+/* =====================
+   MOBILE CONTROLS
+===================== */
+
+#mobile-controls {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    padding: 0 15px;
+    display: none;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.controls-left,
+.controls-right {
+    display: flex;
+    gap: 12px;
+    pointer-events: auto;
+}
+
+#mobile-controls button {
+    height: 64px;
+    font-size: 26px;
+    border-radius: 50%;
+    background-color: rgba(220, 20, 60, 0.85);
+    color: white;
+    border: none;
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+
+@media (max-width: 768px) {
+    #mobile-controls {
+        display: flex;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    #mobile-controls button {
+        height: 56px;
+        font-size: 22px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
 }

@@ -16,7 +16,7 @@ class Character extends MovableObject {
     hitboxWidth = this.width - 80;  // Breite minus links + rechts
     hitboxHeight = this.height - 150; // Höhe reduzieren
     idleTime = 0;
-    sleepIdleAfter = 5000; // 5 Sekunden
+    sleepIdleAfter = 10000; // 5 Sekunden
     isSleeping = false;
 
 
@@ -118,7 +118,7 @@ class Character extends MovableObject {
                 this.otherDirection = true;
             }
 
-            if (this.world.keyboard.SPACE) {
+            if (this.world.keyboard.JUMP) {
                 // Normalsprung
                 if (!this.isAboveGround() && !this.isJumping) {
                     this.jump();
@@ -135,7 +135,7 @@ class Character extends MovableObject {
             if (this.isAboveGround() && this.isJumping) {
                 this.isJumping = false;
             }
-            if (this.world.keyboard.UP && !this.throwCooldown) {
+            if (this.world.keyboard.THROW && !this.throwCooldown) {
                 if (this.mana > 0) {
                     this.world.throwBottle();
                     this.mana--;
