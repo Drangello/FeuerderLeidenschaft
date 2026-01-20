@@ -7,6 +7,11 @@ class CrazyChicken extends Chicken {
     jumpSpeed = 6;
     isJumping = false;
 
+    hitboxOffsetX = 10;  // Abstand links/rechts
+    hitboxOffsetY = 40;  // Etwas weniger als Chicken, da kleiner
+    hitboxWidth = 60;    // Schmaler, da width=80
+    hitboxHeight = 40;   // Kleiner
+
     images_walking = [
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png'
     ];
@@ -17,15 +22,17 @@ class CrazyChicken extends Chicken {
         'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
-    constructor() {
-        super();
+    constructor(x = null) {
+        super(x);
 
         // andere Bilder laden
         this.loadImages(this.images_walking);
         this.loadImages(this.images_jumping);
 
         // zufällig auf der Karte verteilen
-        this.x = 300 + Math.random() * 2000;
+        if (x === null) {
+            this.x = 800 + Math.random() * 1450; // Auf das ganze Feld verteilt
+        }
         this.speed = 0;
 
         // normales Chicken-Verhalten stoppen

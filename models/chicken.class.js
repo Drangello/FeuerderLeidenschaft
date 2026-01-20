@@ -3,18 +3,22 @@ class Chicken extends MovableObject {
     width = 100;
     height = 100;
     health = 10;
+    hitboxOffsetX = 10;  // Abstand links/rechts
+    hitboxOffsetY = 50;  // Abstand oben, um über sie zu springen
+    hitboxWidth = 90;    // Breiter, da width=100
+    hitboxHeight = 50;   // Höhe reduziert, nur unterer Teil
     images_walking = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
 
-    constructor() {
+    constructor(x = null) {
         super();
         this.loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.images_walking);
 
-        this.x = 200 + Math.random() * 500;
+        this.x = x !== null ? x : 400 + Math.random() * 1850;
         this.speed = 0.2 + Math.random() * 0.7;
         this.animate();
     }
