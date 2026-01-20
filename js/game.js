@@ -1,6 +1,9 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let backgroundMusic;
+let bossMusic;
+let jumpAudio = null;
 
 /** Dein unverändertes init() */
 function init() {
@@ -14,6 +17,7 @@ function startGame() {
     init();
     bindMobileControls();
     checkOrientation();
+    playBackgroundMusic();
 }
 
 /** Spiel neustarten */
@@ -98,6 +102,23 @@ function checkOrientation() {
 }
 
 window.addEventListener("resize", checkOrientation);
+
+function playSound(path, volume = 1, loop = false) {
+    const audio = new Audio(path);
+    audio.volume = volume;
+    audio.loop = loop;
+    audio.play().catch(e => console.log('Audio play failed:', e));
+    return audio;
+}
+
+function playBackgroundMusic() {
+    backgroundMusic = playSound('audio/mukke/Sound 1.mp3', 0.2, true);
+}
+
+function switchToBossMusic() {
+    if (backgroundMusic) backgroundMusic.pause();
+    bossMusic = playSound('audio/mukke/Sound 2 Boss.mp3', 0.2, true);
+}
 window.addEventListener("orientationchange", checkOrientation);
 
 

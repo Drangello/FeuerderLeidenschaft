@@ -18,6 +18,8 @@ class Character extends MovableObject {
     idleTime = 0;
     sleepIdleAfter = 10000; // 5 Sekunden
     isSleeping = false;
+    snorePlayed = false;
+    snoreAudio = null;
 
 
     images_walking = [
@@ -103,6 +105,12 @@ class Character extends MovableObject {
         if (isMoving || this.isHurt() || this.isAboveGround()) {
             this.idleTime = 0;
             this.isSleeping = false;
+            this.snorePlayed = false; // Reset snore sound
+            if (this.snoreAudio) {
+                this.snoreAudio.pause();
+                this.snoreAudio.currentTime = 0;
+                this.snoreAudio = null;
+            }
         } else {
             this.idleTime += 1000 / 60;
     }   
@@ -190,6 +198,10 @@ class Character extends MovableObject {
         this.speedY = this.jumpHeight;
         this.isJumping = true;
         this.playJumpAnimation(); // Animation einmalig starten
+        if (!jumpAudio || jumpAudio.ended) {
+            jumpAudio = playSound('audio/effects/jump.mp3', 1.0); // Jump Sound
+            console.log('Jump sound played');
+        }
     }
     playHurtAnimation() {
         if (this.hurtAnimationRunning) return; // Wenn schon läuft, nicht nochmal starten
@@ -259,6 +271,11 @@ this.world.showEndScreen("lose");
     }
     playSleepIdleAnimation() {
     this.isSleeping = true;
+
+    if (!this.snorePlayed) {
+        this.snoreAudio = playSound('audio/effects/snore.mp3', 0.8, true); // Schnarch Sound, loop
+        this.snorePlayed = true;
+    }
 
     let i = this.currentImage % this.images_sleep.length;
     let path = this.images_sleep[i];

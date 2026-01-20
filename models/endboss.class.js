@@ -8,6 +8,7 @@ class Endboss extends MovableObject {
     isAwake = false;
     isWakingUp = false;
     sightRange = 500; // "Sichtweite" in Pixeln
+    musicSwitched = false;
     isSprinting = false;
     sprintSpeed = 25;
     normalSpeed = 2.5;
@@ -68,8 +69,10 @@ class Endboss extends MovableObject {
         if (this.world && this.world.character) {
             const distance = Math.abs(this.world.character.x - this.x);
 
-            if (!this.isAwake && !this.isWakingUp && distance < this.sightRange) {
+            if (!this.isAwake && !this.isWakingUp && distance < this.sightRange && !this.musicSwitched) {
                 this.isWakingUp = true;
+                this.musicSwitched = true;
+                switchToBossMusic(); // Musik wechseln
             }
         }
 
