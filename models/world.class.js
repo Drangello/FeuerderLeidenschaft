@@ -7,6 +7,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    gameRunning = true;
     throwableObjects = [new ThrowableObject()];
     manaBottles = [];
     manaBar = new ManaBar();
@@ -122,6 +123,8 @@ if (!boss.isAwake && !boss.isWakingUp && distance < 500) { // 👈 500 = "Sichtw
 }
 
     draw() {
+        if (!this.gameRunning) return;
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
@@ -183,6 +186,10 @@ if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss) {
         }
 }
 showEndScreen(result) {
+    this.gameRunning = false; // Stoppe das Spiel
+    if (backgroundMusic) backgroundMusic.pause();
+    if (bossMusic) bossMusic.pause();
+
     const endScreen = document.getElementById("end-screen");
     const endText = document.getElementById("end-text");
 

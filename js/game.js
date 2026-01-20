@@ -25,6 +25,15 @@ function restartGame() {
     location.reload();
 }
 
+/** Zurück zum Hauptmenü */
+function backToMenu() {
+    document.getElementById("end-screen").classList.add("hidden");
+    document.getElementById("start-screen").classList.remove("hidden");
+    // Stoppe Musik falls noch läuft
+    if (backgroundMusic) backgroundMusic.pause();
+    if (bossMusic) bossMusic.pause();
+}
+
 /** Sobald alles geladen ist, wird der Button aktiv */
 window.addEventListener("load", () => {
     const startBtn = document.getElementById("start-btn");
