@@ -171,14 +171,6 @@ if (!boss.isAwake && !boss.isWakingUp && distance < 500) { // 👈 500 = "Sichtw
         
 this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
 
-if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss) {
-    this.ctx.beginPath();
-    this.ctx.lineWidth = 5;
-    this.ctx.strokeStyle = 'violet';
-    this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
-    this.ctx.stroke();
-}
-
         if(mo.otherDirection){
             mo.x = mo.x * -1 ;
             this.ctx.restore();
