@@ -13,7 +13,7 @@ body {
     justify-content: center;
     gap: 12px;
 
-    background-image: url('/img/nightsky.jpg');
+    background-image: url('/img/nightsky.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -86,13 +86,13 @@ canvas {
 .overlay-start.start-1 {
     background-image:
        
-        url('/img/Screen/Mainscreen.png');
+        url('/img/Screen/Mainscreen.jpeg');
 }
 /* GEWONNEN */
 .overlay-end.end-win {
     background-image:
        
-        url('img/Screen/Victory.png');
+        url('img/Screen/Victory.jpeg');
 }
 
 /* VERLOREN */
