@@ -14,15 +14,14 @@
     <div id="game-container">
         <canvas id="canvas" width="720" height="480"></canvas>
 
-        <!-- Start-Screen -->
-        <div id="start-screen" class="overlay">
-            <h2>Spanisches Feuer der Leidenschaft</h2>
+        <!-- START SCREEN -->
+        <div id="start-screen" class="overlay overlay-start start-1">
             <button id="start-btn" disabled onclick="startGame()">Spiel starten</button>
             <button id="sound-btn" onclick="toggleSound()">Sound: An</button>
         </div>
 
-        <!-- End-Screen -->
-        <div id="end-screen" class="overlay hidden">
+        <!-- END SCREEN -->
+        <div id="end-screen" class="overlay overlay-end hidden">
             <h2 id="end-text"></h2>
             <button onclick="restartGame()">Nochmal spielen</button>
             <button onclick="backToMenu()">Zurück zum Menü</button>

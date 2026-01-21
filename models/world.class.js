@@ -38,89 +38,86 @@ throwBottle() {
 
 checkCollisions() {
     setInterval(() => {
+
         // === Character vs Enemy ===
-        this.level.enemies.forEach((enemy) => {
+        this.level.enemies.forEach(enemy => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                console.log('Collision with enemy detected', this.character.health);
+
+                if (this.character.health <= 0 && this.gameRunning) {
+                    this.showEndScreen("lose");
+                }
             }
         });
 
         // === Bottle vs Enemy ===
-        this.throwableObjects.forEach((bottle) => {
-            this.level.enemies.forEach((enemy) => {
+        this.throwableObjects.forEach(bottle => {
+            this.level.enemies.forEach(enemy => {
                 if (bottle.isColliding(enemy) && !enemy.isDead()) {
                     enemy.hit();
                     bottle.remove();
-                    console.log('Bottle hit enemy! Enemy health:', enemy.health);
 
-                    // Optional: Gegner "sterben" lassen, falls health = 0
-                    if (enemy.isDead()) {
-                        console.log('Enemy is dead!');
-                        // Gegner optional aus dem Level entfernen:
-                        // this.level.enemies = this.level.enemies.filter(e => !e.isDead());
+                    if (enemy.isDead() && enemy instanceof Endboss && this.gameRunning) {
+                        this.showEndScreen("win");
                     }
                 }
             });
         });
-// === ManaBottle aufsammeln ===
-this.manaBottles.forEach((bottle) => {
-    if (this.character.isColliding(bottle)) {
-        // Nur aufheben, wenn Mana noch nicht voll ist
-        if (this.character.mana < this.character.maxMana) {
-            bottle.remove();
-            this.character.mana = Math.min(this.character.mana + 2, this.character.maxMana);
-            console.log(`Mana bottle collected! Mana: ${this.character.mana}`);
-        } else {
-            // Optional: kurze Meldung, wenn Mana bereits voll ist
-            console.log("Mana already full – bottle ignored.");
+
+        // === ManaBottle aufsammeln ===
+        this.manaBottles.forEach(bottle => {
+            if (this.character.isColliding(bottle)) {
+                if (this.character.mana < this.character.maxMana) {
+                    bottle.remove();
+                    this.character.mana = Math.min(
+                        this.character.mana + 2,
+                        this.character.maxMana
+                    );
+                }
+            }
+        });
+
+        this.manaBottles = this.manaBottles.filter(b => !b.isRemoved);
+        this.throwableObjects = this.throwableObjects.filter(o => !o.isRemoved);
+
+        // === Coins ===
+        if (this.level.coins) {
+            this.level.coins.forEach(coin => {
+                if (this.character.isColliding(coin)) {
+                    if (!this.character.extraJumpAvailable) {
+                        this.character.extraJumpAvailable = true;
+                        coin.remove();
+                    }
+                }
+            });
+            this.level.coins = this.level.coins.filter(c => !c.isRemoved);
         }
-    }
-});
-this.manaBottles = this.manaBottles.filter(b => !b.isRemoved);
-        // === Alte Flaschen entfernen ===
-        this.throwableObjects = this.throwableObjects.filter(obj => !obj.isRemoved);
-if (this.level.coins) {
-    this.level.coins.forEach((coin) => {
-        if (this.character.isColliding(coin)) {
-            if (!this.character.extraJumpAvailable) {
-                this.character.extraJumpAvailable = true;
-                console.log('Double Jump aufgeladen!');
-                coin.remove(); // 🪙 Coin verschwindet nach Aktivierung
+
+        // === Endboss Aktivierung ===
+        if (this.level.endboss) {
+            const boss = this.level.endboss;
+            const distance = Math.abs(this.character.x - boss.x);
+
+            if (!boss.isAwake && !boss.isWakingUp && distance < 500) {
+                boss.isWakingUp = true;
+            }
+
+            if (boss.isAwake) {
+                if (boss.direction === "left" || boss.direction === undefined) {
+                    boss.x -= boss.speed;
+                    boss.otherDirection = false;
+                    if (boss.x < 2000) boss.direction = "right";
+                } else {
+                    boss.x += boss.speed;
+                    boss.otherDirection = true;
+                    if (boss.x > 2600) boss.direction = "left";
+                }
             }
         }
-        if (this.level.endboss) {
-    const boss = this.level.endboss;
-
-const distance = Math.abs(this.character.x - boss.x); // Entfernung zwischen Spieler und Boss
-
-if (!boss.isAwake && !boss.isWakingUp && distance < 500) { // 👈 500 = "Sichtweite" in Pixeln
-    boss.isWakingUp = true;
-    console.log("Endboss hat dich gesehen und wacht auf!");
-}
-
-    // Wenn Boss aktiv ist → läuft nach links/rechts
-    if (boss.isAwake) {
-        // einfache Patrouille oder Verfolgung
-        if (boss.direction === "left" || boss.direction === undefined) {
-            boss.x -= boss.speed;
-            boss.otherDirection = false;
-            if (boss.x < 2000) boss.direction = "right";
-        } else {
-            boss.x += boss.speed;
-            boss.otherDirection = true;
-            if (boss.x > 2600) boss.direction = "left";
-        }
-    }
-}
-    });
-
-    // Entferne Coins, die markiert wurden
-    this.level.coins = this.level.coins.filter(c => !c.isRemoved);
-}
 
     }, 1000 / 25);
 }
+
 
     draw() {
         if (!this.gameRunning) return;
@@ -178,20 +175,21 @@ this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         }
 }
 showEndScreen(result) {
-    this.gameRunning = false; // Stoppe das Spiel
+    this.gameRunning = false; // Stoppt draw()
+
     if (backgroundMusic) backgroundMusic.pause();
     if (bossMusic) bossMusic.pause();
 
     const endScreen = document.getElementById("end-screen");
     const endText = document.getElementById("end-text");
 
-    if (result === "win") {
-        endText.innerText = " Du hast den Endboss besiegt!";
-    } else {
-        endText.innerText = " Du bist gestorben!";
-    }
+    endScreen.classList.remove("hidden", "end-win", "end-lose");
 
-    endScreen.classList.remove("hidden");
+    if (result === "win") {
+        endScreen.classList.add("end-win");
+    } else {
+        endScreen.classList.add("end-lose");        
+    }
 }
 
 }

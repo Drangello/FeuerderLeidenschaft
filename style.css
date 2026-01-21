@@ -64,19 +64,42 @@ canvas {
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
-    text-align: center;
     gap: 20px;
+    text-align: center;
+    color: white;
     z-index: 5;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
 }
 
 .hidden {
     display: none;
+}
+
+.overlay-start.start-1 {
+    background-image:
+       
+        url('/img/Screen/Mainscreen.png');
+}
+/* GEWONNEN */
+.overlay-end.end-win {
+    background-image:
+       
+        url('img/Screen/Victory.png');
+}
+
+/* VERLOREN */
+.overlay-end.end-lose {
+    background-image:
+      
+        url('img/Screen/Loser.jpeg');
 }
 
 /* =====================
