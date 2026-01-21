@@ -132,7 +132,7 @@ function playSound(path, volume = 1, loop = false) {
     const audio = new Audio(path);
     audio.volume = volume;
     audio.loop = loop;
-    audio.play().catch(e => console.log('Audio play failed:', e));
+    audio.play().catch(e => e);
     return audio;
 }
 

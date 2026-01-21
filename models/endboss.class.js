@@ -110,7 +110,6 @@ class Endboss extends MovableObject {
             if (i >= this.images_wakeup.length) {
                 clearInterval(interval);
                 this.isAwake = true;
-                console.log("Endboss ist jetzt aktiv!");
             }
         }, 150);
     }
@@ -166,7 +165,6 @@ die() {
                 } else {
                     this.remove();
                     this.world.showEndScreen("win");
-                    console.log(" Endboss besiegt! ");
                 }
             }
         }, 200);

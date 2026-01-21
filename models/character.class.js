@@ -135,7 +135,6 @@ class Character extends MovableObject {
                 else if (this.isAboveGround() && this.extraJumpAvailable) {
                     this.extraJumpAvailable = false; // Doppelsprung verbrauchen
                     this.jump();
-                    console.log('Double Jump genutzt!');
                 }
             }
             this.world.camera_x = -this.x + 120;
@@ -149,9 +148,6 @@ class Character extends MovableObject {
                     this.mana--;
                     this.throwCooldown = true;
                     setTimeout(() => this.throwCooldown = false, 500);
-                    console.log(`Bottle thrown! Remaining mana: ${this.mana}`);
-                } else {
-                    console.log("No mana left!");
                 }
             }
         }, 1000 / 60);
@@ -200,7 +196,6 @@ class Character extends MovableObject {
         this.playJumpAnimation(); // Animation einmalig starten
         if (!jumpAudio || jumpAudio.ended) {
             jumpAudio = playSound('audio/effects/jump.mp3', 1.0); // Jump Sound
-            console.log('Jump sound played');
         }
     }
     playHurtAnimation() {
