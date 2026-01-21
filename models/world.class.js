@@ -41,7 +41,7 @@ checkCollisions() {
 
         // === Character vs Enemy ===
         this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !enemy.isDead) {
                 this.character.hit();
 
                 if (this.character.health <= 0 && this.gameRunning) {

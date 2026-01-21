@@ -13,7 +13,7 @@ class Character extends MovableObject {
     isJumping = false;
     hitboxOffsetX = 10;  // Abstand links/rechts vom Rand
     hitboxOffsetY = 200; // Abstand oben (damit die Hitbox niedriger ist)
-    hitboxWidth = this.width - 80;  // Breite minus links + rechts
+    hitboxWidth = this.width - 100;  // Breite minus links + rechts
     hitboxHeight = this.height - 150; // Höhe reduzieren
     idleTime = 0;
     sleepIdleAfter = 10000; // 5 Sekunden

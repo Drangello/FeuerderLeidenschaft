@@ -3,9 +3,9 @@ class Chicken extends MovableObject {
     width = 100;
     height = 100;
     health = 10;
-    hitboxOffsetX = 10;  // Abstand links/rechts
+    hitboxOffsetX = 15;  // Abstand links/rechts
     hitboxOffsetY = 50;  // Abstand oben, um über sie zu springen
-    hitboxWidth = 90;    // Breiter, da width=100
+    hitboxWidth = 70;    // Breiter, da width=100
     hitboxHeight = 50;   // Höhe reduziert, nur unterer Teil
     images_walking = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -40,6 +40,11 @@ class Chicken extends MovableObject {
 
         this.loadImage('img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
         this.speed = 0;
+
+        // Deaktiviere Hitbox, damit kein Schaden mehr zugefügt wird
+        this.hitboxWidth = 0;
+        this.hitboxHeight = 0;
+        this.isDead = true;
 
         // Entferne das Chicken nach kurzer Zeit
         setTimeout(() => {

@@ -7,10 +7,10 @@ class CrazyChicken extends Chicken {
     jumpSpeed = 6;
     isJumping = false;
 
-    hitboxOffsetX = 10;  // Abstand links/rechts
+    hitboxOffsetX = 15;  // Abstand links/rechts
     hitboxOffsetY = 40;  // Etwas weniger als Chicken, da kleiner
-    hitboxWidth = 60;    // Schmaler, da width=80
-    hitboxHeight = 40;   // Kleiner
+    hitboxWidth = 30;    // Schmaler, da width=80
+    hitboxHeight = 30;   // Kleiner
 
     images_walking = [
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png'
@@ -121,6 +121,11 @@ class CrazyChicken extends Chicken {
             'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
         );
         this.speed = 0;
+
+        // Deaktiviere Hitbox, damit kein Schaden mehr zugefügt wird
+        this.hitboxWidth = 0;
+        this.hitboxHeight = 0;
+        this.isDead = true;
 
         setTimeout(() => {
             this.isRemoved = true;
