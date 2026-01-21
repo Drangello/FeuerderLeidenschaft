@@ -133,7 +133,7 @@ class CrazyChicken extends Chicken {
             if (this.world) {
     const bottle = new ManaBottle(
         this.x + this.width / 2,
-        420
+        400
     );
     this.world.manaBottles.push(bottle);
 }
