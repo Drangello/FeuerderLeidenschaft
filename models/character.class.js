@@ -95,7 +95,7 @@ class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             const isMoving =
             this.world.keyboard.RIGHT ||
             this.world.keyboard.LEFT ||
@@ -285,6 +285,21 @@ this.world.showEndScreen("lose");
     }
 
     this.currentImage++;
+}
+
+stopAllSounds() {
+    if (this.jumpAudio) {
+        this.jumpAudio.pause();
+        this.jumpAudio.currentTime = 0;
+    }
+    if (this.snoreAudio) {
+        this.snoreAudio.pause();
+        this.snoreAudio.currentTime = 0;
+    }
+}
+
+stopAllIntervals() {
+    clearInterval(this.animationInterval);
 }
 
 }

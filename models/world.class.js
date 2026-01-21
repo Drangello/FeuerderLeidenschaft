@@ -41,7 +41,7 @@ checkCollisions() {
 
         // === Character vs Enemy ===
         this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !enemy.isDead()) {
                 this.character.hit();
 
                 if (this.character.health <= 0 && this.gameRunning) {
@@ -179,6 +179,11 @@ showEndScreen(result) {
 
     if (backgroundMusic) backgroundMusic.pause();
     if (bossMusic) bossMusic.pause();
+
+    // Stoppe alle Sounds des Charakters
+    this.character.stopAllSounds();
+    // Stoppe alle Intervalle des Charakters
+    this.character.stopAllIntervals();
 
     const endScreen = document.getElementById("end-screen");
     const endText = document.getElementById("end-text");
