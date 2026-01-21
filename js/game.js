@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let backgroundMusic;
 let bossMusic;
 let jumpAudio = null;
+let soundEnabled = true;
 
 /** Dein unverändertes init() */
 function init() {
@@ -112,7 +113,21 @@ function checkOrientation() {
 
 window.addEventListener("resize", checkOrientation);
 
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    const soundBtn = document.getElementById("sound-btn");
+    soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
+    if (!soundEnabled) {
+        if (backgroundMusic) backgroundMusic.pause();
+        if (bossMusic) bossMusic.pause();
+    } else {
+        if (backgroundMusic) backgroundMusic.play();
+        if (bossMusic) bossMusic.play();
+    }
+}
+
 function playSound(path, volume = 1, loop = false) {
+    if (!soundEnabled) return null;
     const audio = new Audio(path);
     audio.volume = volume;
     audio.loop = loop;
