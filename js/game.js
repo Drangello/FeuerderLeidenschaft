@@ -23,7 +23,8 @@ function startGame() {
 
 /** Spiel neustarten */
 function restartGame() {
-    location.reload();
+    document.getElementById("end-screen").classList.add("hidden");
+    startGame();
 }
 
 /** Zurück zum Hauptmenü */
