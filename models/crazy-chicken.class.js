@@ -7,7 +7,7 @@ class CrazyChicken extends Chicken {
     jumpSpeed = 6;
     isJumping = false;
 
-    hitboxOffsetX = 15;  // Abstand links/rechts
+    hitboxOffsetX = 20;  // Abstand links/rechts
     hitboxOffsetY = 40;  // Etwas weniger als Chicken, da kleiner
     hitboxWidth = 30;    // Schmaler, da width=80
     hitboxHeight = 30;   // Kleiner

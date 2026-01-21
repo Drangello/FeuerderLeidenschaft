@@ -3,10 +3,10 @@ class Chicken extends MovableObject {
     width = 100;
     height = 100;
     health = 10;
-    hitboxOffsetX = 15;  // Abstand links/rechts
+    hitboxOffsetX = 30;  // Abstand links/rechts
     hitboxOffsetY = 50;  // Abstand oben, um über sie zu springen
     hitboxWidth = 70;    // Breiter, da width=100
-    hitboxHeight = 50;   // Höhe reduziert, nur unterer Teil
+    hitboxHeight = 60;   // Höhe reduziert, nur unterer Teil
     images_walking = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
