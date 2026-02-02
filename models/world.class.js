@@ -143,7 +143,6 @@ checkCollisions() {
         this.manaBar.setMana(this.character.mana, this.character.maxMana);
         this.manaBar.draw(this.ctx);
 
-
         //Draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {

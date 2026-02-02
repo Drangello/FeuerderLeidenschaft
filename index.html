@@ -19,6 +19,7 @@
         <div id="start-screen" class="overlay overlay-start start-1">
             <button id="start-btn" disabled onclick="startGame()">Spiel starten</button>
             <button id="sound-btn" onclick="toggleSound()">Sound: An</button>
+            <button onclick="openImprint()">Impressum</button>
         </div>
 
         <!-- END SCREEN -->
@@ -28,10 +29,36 @@
             <button onclick="backToMenu()">Zurück zum Menü</button>
         </div>
     </div>
-    <div id="rotate-overlay" class="overlay.hidden">
+    <div id="rotate-overlay" class="overlay hidden">
+        <div class="rotate wrapper">
         <h2>Bitte drehe dein Gerät</h2>
         <p>Für das beste Spielerlebniss</p>
+        </div>
     </div>
+    <div id="imprint-modal" class="overlay hidden imprint-modal">
+    <div class="imprint-box">
+        <h1>Impressum</h1> 
+<p>Angaben gemäß § 5 DDG</p> 
+<p>Florian Weimann<br> 
+Garten<br> 
+Hagebuttenweg 3<br> 
+18119 Rostock <br> 
+</p> 
+<p> <strong>Vertreten durch: </strong><br>
+Florian  Weimann<br>
+</p> 
+<p><strong>Kontakt:</strong> <br>
+Telefon: +49-15735649243<br>
+E-Mail: <a>F.Weimann@gmx.de</a></br></p> 
+<p><strong>Verbraucherstreitbeilegung / Universalschlichtungsstelle</strong>
+<br>Wir nehmen an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teil. Zuständig ist die Universalschlichtungsstelle des Zentrums für Schlichtung e.V., Straßburger Straße 8, 77694 Kehl am Rhein, Website: https://www.verbraucher-schlichter.de/.</p> 
+<p>Erstellt mit dem <a href="https://impressum-generator.de/" rel="dofollow">Impressum-Generator</a> von WebsiteWissen.com, dem Ratgeber für <a href="https://websitewissen.com/website-erstellen" rel="dofollow">Website-Erstellung</a>, <a href="https://websitewissen.com/homepage-baukasten-vergleich" rel="dofollow">Homepage-Baukästen</a> und <a href="https://websitewissen.com/shopsysteme-vergleich" rel="dofollow">Shopsysteme</a>. Rechtstext von der <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>. 
+</p>
+
+
+        <button onclick="closeImprint()">Schließen</button>
+    </div>
+</div>
 
     <div id="mobile-controls">
         <div class="controls-left">

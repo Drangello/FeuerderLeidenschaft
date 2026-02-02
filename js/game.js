@@ -84,7 +84,9 @@ function init() {
 /** Spiel starten */
 function startGame() {
     document.getElementById("start-screen").classList.add("hidden");
+   if (isTouchDevice()) {
     document.getElementById("mobile-controls").classList.add("show");
+}
     resetLevel();
     init();
     bindMobileControls();
@@ -175,21 +177,28 @@ function isTouchDevice() {
 function checkOrientation() {
     if (!isTouchDevice()) return;
 
-    const isPortrait = window.innerHeight > window.innerWidth;
     const rotateOverlay = document.getElementById("rotate-overlay");
     const mobileControls = document.getElementById("mobile-controls");
 
+    const isPortrait = window.innerHeight > window.innerWidth;
+
     if (isPortrait) {
         rotateOverlay.classList.remove("hidden");
-        if (mobileControls) mobileControls.style.display = "none";
+        rotateOverlay.style.display = "flex";
+
+        if (mobileControls) {
+            mobileControls.style.display = "none";
+        }
     } else {
         rotateOverlay.classList.add("hidden");
-        // Nur anzeigen wenn das Spiel läuft (show-Klasse vorhanden)
+        rotateOverlay.style.display = "none";
+
         if (mobileControls && mobileControls.classList.contains("show")) {
             mobileControls.style.display = "flex";
         }
     }
 }
+
 
 window.addEventListener("resize", checkOrientation);
 
@@ -225,5 +234,21 @@ function switchToBossMusic() {
     bossMusic = playSound('audio/mukke/Sound 2 Boss.mp3', 0.2, true);
 }
 window.addEventListener("orientationchange", checkOrientation);
+
+function openImprint() {
+    document.getElementById("imprint-modal").classList.remove("hidden");
+}
+
+function closeImprint() {
+    document.getElementById("imprint-modal").classList.add("hidden");
+}
+const imprintModal = document.getElementById("imprint-modal");
+
+imprintModal.addEventListener("click", (event) => {
+    // Nur schließen, wenn wirklich auf den Hintergrund geklickt wurde
+    if (event.target === imprintModal) {
+        closeImprint();
+    }
+});
 
 

@@ -7,19 +7,23 @@ class ManaBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png'
     ];
-    percent = 100;
+
     constructor() {
         super();
         this.loadImage(this.IMAGES[5]);
-        this.x = 500;  // etwas nach rechts verschoben
-        this.y = 20;
+
+        this.x = 20;
+        this.y = 20 + 50 + 10;
         this.width = 200;
         this.height = 50;
+
+        this.icon = new Image();
+        this.icon.src = 'img/6_salsa_bottle/salsa_bottle.png';
+
+        this.iconSize = 32;
+        this.iconPadding = 8;
     }
 
-    /**
-     * Aktualisiert die Mana-Anzeige (0–5 Mana → 0–100%)
-     */
     setMana(mana, maxMana) {
         const percent = (mana / maxMana) * 100;
         let imageIndex;
@@ -32,5 +36,21 @@ class ManaBar extends DrawableObject {
         else imageIndex = 0;
 
         this.loadImage(this.IMAGES[imageIndex]);
+    }
+
+    draw(ctx) {
+        // Bar zeichnen
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+
+        // Icon zeichnen (links auf der Bar)
+        if (this.icon.complete) {
+            ctx.drawImage(
+                this.icon,
+                this.x + this.iconPadding,
+                this.y + (this.height - this.iconSize) / 2,
+                this.iconSize,
+                this.iconSize
+            );
+        }
     }
 }
