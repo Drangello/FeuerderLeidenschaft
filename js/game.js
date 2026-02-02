@@ -4,7 +4,76 @@ let keyboard = new Keyboard();
 let backgroundMusic;
 let bossMusic;
 let jumpAudio = null;
-let soundEnabled = true;
+let soundEnabled = localStorage.getItem('soundEnabled') !== 'false'; // true wenn nicht gespeichert oder true
+
+/** Level neu erstellen */
+function resetLevel() {
+    level1 = new Level(
+        [
+            new Chicken(500),
+            new Chicken(650),
+            new Chicken(800),
+            new Chicken(950),
+            new Chicken(1100),
+            new Chicken(1250),
+            new Chicken(1400),
+            new Chicken(1500),
+            new Chicken(1600),
+            new Chicken(1850),
+            new Chicken(1900),
+            new Chicken(2100),
+            new Chicken(2200),
+            new Chicken(2250),
+            new CrazyChicken(600),
+            new CrazyChicken(900),
+            new CrazyChicken(1200),
+            new CrazyChicken(1500),
+            new CrazyChicken(1800),
+            new CrazyChicken(2100),
+            new Endboss()
+        ],
+        [
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+            new Cloud(),
+        ],
+
+        [
+            new BackgroundObject('img/5_background/layers/3_third_layer/2.png', -720),
+            new BackgroundObject('img/5_background/layers/2_second_layer/2.png', -720),
+            new BackgroundObject('img/5_background/layers/1_first_layer/2.png', -720),
+            new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
+            new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
+            new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0),
+            new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 720),
+            new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 720),
+            new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 720),
+            new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 1440),
+            new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 1440),
+            new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 1440),
+            new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 720*3),
+            new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 720*3),
+            new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 720*3),    
+        ],
+
+        [
+            new Coin(-500, 140),
+            new Coin( 200, 140),
+            new Coin(900, 140),
+            new Coin(1600, 140),
+            new Coin(2400, 140)
+        ],
+    );
+}
 
 /** Dein unverändertes init() */
 function init() {
@@ -15,6 +84,8 @@ function init() {
 /** Spiel starten */
 function startGame() {
     document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("mobile-controls").classList.add("show");
+    resetLevel();
     init();
     bindMobileControls();
     checkOrientation();
@@ -31,6 +102,7 @@ function restartGame() {
 function backToMenu() {
     document.getElementById("end-screen").classList.add("hidden");
     document.getElementById("start-screen").classList.remove("hidden");
+    document.getElementById("mobile-controls").classList.remove("show");
     // Stoppe Musik falls noch läuft
     if (backgroundMusic) backgroundMusic.pause();
     if (bossMusic) bossMusic.pause();
@@ -41,6 +113,10 @@ window.addEventListener("load", () => {
     const startBtn = document.getElementById("start-btn");
     startBtn.textContent = "Spiel starten";
     startBtn.disabled = false;
+    
+    // Sound-Button Text aktualisieren basierend auf gespeicherter Einstellung
+    const soundBtn = document.getElementById("sound-btn");
+    soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
 });
 
 window.addEventListener("keydown", (e) => {
@@ -108,7 +184,10 @@ function checkOrientation() {
         if (mobileControls) mobileControls.style.display = "none";
     } else {
         rotateOverlay.classList.add("hidden");
-        if (mobileControls) mobileControls.style.display = "flex";
+        // Nur anzeigen wenn das Spiel läuft (show-Klasse vorhanden)
+        if (mobileControls && mobileControls.classList.contains("show")) {
+            mobileControls.style.display = "flex";
+        }
     }
 }
 
@@ -116,6 +195,7 @@ window.addEventListener("resize", checkOrientation);
 
 function toggleSound() {
     soundEnabled = !soundEnabled;
+    localStorage.setItem('soundEnabled', soundEnabled); // Speichern im LocalStorage
     const soundBtn = document.getElementById("sound-btn");
     soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
     if (!soundEnabled) {

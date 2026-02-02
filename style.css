@@ -11,9 +11,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
     gap: 12px;
 
-    background-image: url('/img/nightsky.jpeg');
+    background-image: url('img/nightsky.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -21,6 +22,7 @@ body {
     min-height: 100svh;
     touch-action: none;
     overscroll-behavior: none;
+    color: white;
 }
 
 /* =====================
@@ -65,9 +67,8 @@ canvas {
     position: absolute;
     inset: 0;
     display: flex;
-    flex-direction: column;
     justify-content: end;
-    align-items: center;
+    align-items: end;
     gap: 20px;
     text-align: center;
     color: white;
@@ -86,7 +87,7 @@ canvas {
 .overlay-start.start-1 {
     background-image:
        
-        url('/img/Screen/Mainscreen.jpeg');
+        url('img/Screen/Mainscreen.jpeg');
 }
 /* GEWONNEN */
 .overlay-end.end-win {
@@ -141,6 +142,10 @@ button:hover:not(:disabled) {
     z-index: 10;
 }
 
+#mobile-controls.show {
+    display: flex;
+}
+
 .controls-left,
 .controls-right {
     display: flex;
@@ -162,7 +167,7 @@ button:hover:not(:disabled) {
 ===================== */
 
 @media (max-width: 768px) {
-    #mobile-controls {
+    #mobile-controls.show {
         display: flex;
     }
 

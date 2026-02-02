@@ -185,6 +185,9 @@ showEndScreen(result) {
     // Stoppe alle Intervalle des Charakters
     this.character.stopAllIntervals();
 
+    // Verstecke mobile controls
+    document.getElementById("mobile-controls").classList.remove("show");
+
     const endScreen = document.getElementById("end-screen");
     const endText = document.getElementById("end-text");
 
