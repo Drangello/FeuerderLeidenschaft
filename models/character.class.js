@@ -121,8 +121,6 @@ class Character extends MovableObject {
             this.moveCharacter();
             this.handleJump();
             this.world.camera_x = -this.x + 120;
-
-<<<<<<< HEAD
             if (this.isAboveGround() && this.isJumping) {
                 this.isJumping = false;
             }

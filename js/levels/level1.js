@@ -61,6 +61,6 @@ let level1 = new Level(
         new Coin(200, 140),
         new Coin(900, 140),
         new Coin(1600, 140),
-        new Coin(2100, 140)
+        new Coin(1900, 140)
     ],
 );
