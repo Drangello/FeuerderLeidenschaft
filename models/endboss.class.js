@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Represents the final boss enemy.
  * @extends MovableObject
@@ -20,6 +21,13 @@ class Endboss extends MovableObject {
     sprintChance = 0.02;
 
     images_alert = [
+=======
+class Endboss extends MovableObject{
+    y = 350;
+    width = 330;
+    height = 330;
+    images_walking = [
+>>>>>>> 575f1ab20bf9e59fec3bcd419e4d9b7c4b0f3864
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
         'img/4_enemie_boss_chicken/2_alert/G7.png',
@@ -30,6 +38,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
+<<<<<<< HEAD
     images_wakeup = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -257,6 +266,12 @@ class Endboss extends MovableObject {
             this.x += this.speed;
             this.otherDirection = true;
         }
+=======
+    constructor(){
+        super().loadImage(this.images_walking[0]);
+        this.leoadImages(this.images_walking);
+        this.x = 700;
+>>>>>>> 575f1ab20bf9e59fec3bcd419e4d9b7c4b0f3864
     }
 
 }

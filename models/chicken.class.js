@@ -17,6 +17,7 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
 
+<<<<<<< HEAD
     /**
      * Creates an instance of Chicken.
      * @param {number} [x] - Optional initial x-coordinate.
@@ -24,13 +25,19 @@ class Chicken extends MovableObject {
     constructor(x = null) {
         super();
         this.loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+=======
+    constructor(){
+        super().loadImage(this.images_walking[0]);
+>>>>>>> 575f1ab20bf9e59fec3bcd419e4d9b7c4b0f3864
         this.loadImages(this.images_walking);
 
         this.x = x !== null ? x : 400 + Math.random() * 1850;
         this.speed = 0.2 + Math.random() * 0.7;
+        
         this.animate();
     }
 
+<<<<<<< HEAD
     /**
      * Starts the movement and animation loops.
      */
@@ -42,6 +49,11 @@ class Chicken extends MovableObject {
             let path = this.images_walking[i];
             this.img = this.imageCache[path];
             this.currentImage++;
+=======
+        animate() {
+        setInterval(() => {
+        this.playAnimation(this.images_walking);
+>>>>>>> 575f1ab20bf9e59fec3bcd419e4d9b7c4b0f3864
         }, 100);
     }
 

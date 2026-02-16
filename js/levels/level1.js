@@ -14,7 +14,14 @@ let level1 = new Level(
         new CrazyChicken(1500),
         new CrazyChicken(1800),
         new CrazyChicken(2100),
-        new Endboss()
+        new Endboss(),
+        new Chicken(),
+        new Chicken(),
+        new Chicken(),
+        new Chicken(),
+        new Chicken(),
+        new Endboss(),
+
     ],
     [
         new Cloud(),
