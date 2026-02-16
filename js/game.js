@@ -60,17 +60,17 @@ function resetLevel() {
             new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 1440),
             new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 1440),
             new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 1440),
-            new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 720*3),
-            new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 720*3),
-            new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 720*3),    
+            new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 720 * 3),
+            new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 720 * 3),
+            new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 720 * 3),
         ],
 
         [
             new Coin(-500, 140),
-            new Coin( 200, 140),
+            new Coin(200, 140),
             new Coin(900, 140),
             new Coin(1600, 140),
-            new Coin(2400, 140)
+            new Coin(2200, 140)
         ],
     );
 }
@@ -84,9 +84,9 @@ function init() {
 /** Spiel starten */
 function startGame() {
     document.getElementById("start-screen").classList.add("hidden");
-   if (isTouchDevice()) {
-    document.getElementById("mobile-controls").classList.add("show");
-}
+    if (isTouchDevice()) {
+        document.getElementById("mobile-controls").classList.add("show");
+    }
     resetLevel();
     init();
     bindMobileControls();
@@ -115,7 +115,7 @@ window.addEventListener("load", () => {
     const startBtn = document.getElementById("start-btn");
     startBtn.textContent = "Spiel starten";
     startBtn.disabled = false;
-    
+
     // Sound-Button Text aktualisieren basierend auf gespeicherter Einstellung
     const soundBtn = document.getElementById("sound-btn");
     soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
