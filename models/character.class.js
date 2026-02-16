@@ -91,12 +91,8 @@ class Character extends MovableObject {
      * Loads all necessary images and starts the animation loop.
      */
     constructor() {
-<<<<<<< HEAD
         super();
         this.loadImage(this.images_idele[0]);
-=======
-        super().loadImage(this.images_walking[0]);
->>>>>>> 575f1ab20bf9e59fec3bcd419e4d9b7c4b0f3864
         this.loadImages(this.images_walking);
         this.loadImages(this.images_jumping);
         this.loadImages(this.images_dead);
@@ -129,15 +125,7 @@ class Character extends MovableObject {
 <<<<<<< HEAD
             if (this.isAboveGround() && this.isJumping) {
                 this.isJumping = false;
-=======
-        setInterval(() => {
-            if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
-                
-                //walk animation
-                this.playAnimation(this.images_walking);
->>>>>>> 575f1ab20bf9e59fec3bcd419e4d9b7c4b0f3864
             }
-
             this.handleThrowObjects();
         }, 1000 / 60);
     }
