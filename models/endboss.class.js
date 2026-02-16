@@ -36,6 +36,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G15.png',
         'img/4_enemie_boss_chicken/3_attack/G16.png'
     ];
+
     images_hurt = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
@@ -48,6 +49,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/1_walk/G3.png',
         'img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
+
     images_dead = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
@@ -113,7 +115,6 @@ class Endboss extends MovableObject {
             this.moveAndWalkAnimation();
         }
     }
-
 
     /**
      * Plays the wakeup animation once, then sets the boss to awake state.
@@ -258,5 +259,4 @@ class Endboss extends MovableObject {
             this.otherDirection = true;
         }
     }
-
 }

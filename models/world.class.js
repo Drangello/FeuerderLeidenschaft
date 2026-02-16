@@ -258,7 +258,6 @@ class World {
         if (mo.otherDirection) {
             mo.x = mo.x * -1;
             this.ctx.restore();
-
         }
     }
 
@@ -288,5 +287,4 @@ class World {
             endScreen.classList.add("end-lose");
         }
     }
-
 }

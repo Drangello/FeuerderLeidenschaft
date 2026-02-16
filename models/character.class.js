@@ -53,7 +53,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-55.png',
         'img/2_character_pepe/5_dead/D-56.png',
         'img/2_character_pepe/5_dead/D-57.png'
-
     ];
     images_hurt = [
         'img/2_character_pepe/4_hurt/H-41.png',
@@ -301,7 +300,6 @@ class Character extends MovableObject {
                 clearInterval(interval);
                 this.img = this.imageCache[this.images_dead[this.images_dead.length - 1]];
                 this.world.showEndScreen("lose");
-
             }
         }, 150);
     }

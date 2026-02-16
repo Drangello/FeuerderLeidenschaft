@@ -34,7 +34,7 @@ class MovableObject extends DrawableObject {
      */
     isAboveGround() {
         return this.y < 150;
-    };
+    }
 
 
     /**
@@ -68,7 +68,7 @@ class MovableObject extends DrawableObject {
      */
     remove() {
         this.isRemoved = true;
-    };
+    }
 
     /**
      * Checks for collision with another object.

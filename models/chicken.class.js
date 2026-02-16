@@ -71,5 +71,5 @@ class Chicken extends MovableObject {
                 this.world.manaBottles.push(bottle);
             }
         }, 1500);
-    };
+    }
 }
