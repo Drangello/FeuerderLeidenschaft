@@ -13,7 +13,6 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
 
 
-<<<<<<< HEAD
     /**
      * Applies gravity to the object, pulling it downwards.
      */
@@ -63,27 +62,6 @@ class MovableObject extends DrawableObject {
 
         return interval;
     }
-=======
-    loadImage(path){
-        this.img = new Image();
-        this.img.src = path;
-    };
-
-    loadImages(arr){
-        arr.forEach((path) => {
-        let img = new Image();
-        img.src = path;
-        this.imageCache[path] = img;
-        });
-    };
-
-    playAnimation(images){
-             let i = this.currentImage % this.images_walking.length;
-            let path = images[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
-            }
->>>>>>> 575f1ab20bf9e59fec3bcd419e4d9b7c4b0f3864
 
     /**
      * Marks the object as removed.
