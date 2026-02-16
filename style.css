@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -84,26 +85,28 @@ canvas {
     display: none;
 
 }
+
 .wrapper {
     flex-direction: column;
 }
 
 .overlay-start.start-1 {
     background-image:
-       
+
         url('img/Screen/Mainscreen.jpeg');
 }
+
 /* GEWONNEN */
 .overlay-end.end-win {
     background-image:
-       
+
         url('img/Screen/Victory.jpeg');
 }
 
 /* VERLOREN */
 .overlay-end.end-lose {
     background-image:
-      
+
         url('img/Screen/Loser.jpeg');
 }
 
@@ -165,6 +168,7 @@ button:hover:not(:disabled) {
     color: white;
     border: none;
 }
+
 /* =====================
    IMPRESSUM MODAL
 ===================== */
@@ -226,6 +230,7 @@ button:hover:not(:disabled) {
         font-size: 18px;
     }
 }
+
 #rotate-overlay {
     display: none;
 }

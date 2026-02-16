@@ -1,3 +1,7 @@
+/**
+ * Represents a crazy variant of the chicken enemy that jumps.
+ * @extends Chicken
+ */
 class CrazyChicken extends Chicken {
     y = 350;
     width = 80;
@@ -7,10 +11,10 @@ class CrazyChicken extends Chicken {
     jumpSpeed = 6;
     isJumping = false;
 
-    hitboxOffsetX = 0;  // Abstand links/rechts
-    hitboxOffsetY = 40;  // Etwas weniger als Chicken, da kleiner
-    hitboxWidth = 20;    // Schmaler, da width=80
-    hitboxHeight = 30;   // Kleiner
+    hitboxOffsetX = 0;
+    hitboxOffsetY = 40;
+    hitboxWidth = 20;
+    hitboxHeight = 30;
 
     images_walking = [
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png'
@@ -22,30 +26,31 @@ class CrazyChicken extends Chicken {
         'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
+    /**
+     * Creates an instance of CrazyChicken.
+     * @param {number} [x] - Optional initial x-coordinate.
+     */
     constructor(x = null) {
         super(x);
 
-        // andere Bilder laden
         this.loadImages(this.images_walking);
         this.loadImages(this.images_jumping);
 
-        // zufällig auf der Karte verteilen
         if (x === null) {
-            this.x = 800 + Math.random() * 1450; // Auf das ganze Feld verteilt
+            this.x = 800 + Math.random() * 1450;
         }
         this.speed = 0;
 
-        // normales Chicken-Verhalten stoppen
         clearInterval(this.movingInterval);
         clearInterval(this.walkingAnimation);
 
-        // eigene Animationen starten
         this.animateIdle();
         this.startJumping();
     }
 
-    /* ---------------- IDLE ---------------- */
-
+    /**
+     * Starts the idle animation loop.
+     */
     animateIdle() {
         this.walkingAnimation = setInterval(() => {
             if (!this.isJumping) {
@@ -57,8 +62,9 @@ class CrazyChicken extends Chicken {
         }, 200);
     }
 
-    /* ---------------- JUMP ---------------- */
-
+    /**
+     * Starts the jumping behavior loop.
+     */
     startJumping() {
         this.jumpInterval = setInterval(() => {
             if (!this.isJumping) {
@@ -67,6 +73,9 @@ class CrazyChicken extends Chicken {
         }, 3500);
     }
 
+    /**
+     * Executes a jump action with animation and physics.
+     */
     jump() {
         this.isJumping = true;
         this.currentImage = 0;
@@ -74,7 +83,6 @@ class CrazyChicken extends Chicken {
         let startY = this.y;
         let peakY = startY - this.jumpHeight;
 
-        // Jump Animation
         this.jumpAnimation = setInterval(() => {
             let i = this.currentImage % this.images_jumping.length;
             let path = this.images_jumping[i];
@@ -82,7 +90,6 @@ class CrazyChicken extends Chicken {
             this.currentImage++;
         }, 120);
 
-        // Hochspringen
         this.upInterval = setInterval(() => {
             if (this.y > peakY) {
                 this.y -= this.jumpSpeed;
@@ -94,6 +101,10 @@ class CrazyChicken extends Chicken {
         }, 30);
     }
 
+    /**
+     * Handles the falling physics after a jump.
+     * @param {number} startY - The y-coordinate to fall back to.
+     */
     fallDown(startY) {
         this.downInterval = setInterval(() => {
             if (this.y < startY) {
@@ -107,8 +118,9 @@ class CrazyChicken extends Chicken {
         }, 30);
     }
 
-    /* ---------------- DEATH ---------------- */
-
+    /**
+     * Handles death logic, stops all intervals, and spawns a mana bottle.
+     */
     die() {
         clearInterval(this.walkingAnimation);
         clearInterval(this.movingInterval);
@@ -122,21 +134,20 @@ class CrazyChicken extends Chicken {
         );
         this.speed = 0;
 
-        // Deaktiviere Hitbox, damit kein Schaden mehr zugefügt wird
         this.hitboxWidth = 0;
         this.hitboxHeight = 0;
-        this.isDead = true;
+
 
         setTimeout(() => {
             this.isRemoved = true;
 
             if (this.world) {
-    const bottle = new ManaBottle(
-        this.x + this.width / 2,
-        400
-    );
-    this.world.manaBottles.push(bottle);
-}
+                const bottle = new ManaBottle(
+                    this.x + this.width / 2,
+                    400
+                );
+                this.world.manaBottles.push(bottle);
+            }
         }, 1500);
     }
 }

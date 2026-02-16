@@ -1,3 +1,7 @@
+/**
+ * Represents the final boss enemy.
+ * @extends MovableObject
+ */
 class Endboss extends MovableObject {
     y = 80;
     x = 2500;
@@ -7,15 +11,14 @@ class Endboss extends MovableObject {
     health = 80;
     isAwake = false;
     isWakingUp = false;
-    sightRange = 500; // "Sichtweite" in Pixeln
+    sightRange = 500;
     musicSwitched = false;
     isSprinting = false;
     sprintSpeed = 25;
     normalSpeed = 2.5;
-    sprintDuration = 5000; // 5 Sekunden
-    sprintChance = 0.02; // 2% Chance pro Tick
+    sprintDuration = 5000;
+    sprintChance = 0.02;
 
-    // === Animationen ===
     images_alert = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -51,6 +54,10 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    /**
+     * Creates an instance of Endboss.
+     * Loads images and starts the animation loop.
+     */
     constructor() {
         super();
         this.loadImage(this.images_alert[0]);
@@ -62,45 +69,55 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the main animation loop for the boss.
+     */
     animate() {
-
         setInterval(() => {
-
             if (this.world && this.world.character) {
-                const distance = Math.abs(this.world.character.x - this.x);
-
-                if (!this.isAwake && !this.isWakingUp && distance < this.sightRange && !this.musicSwitched) {
-                    this.isWakingUp = true;
-                    this.musicSwitched = true;
-                    switchToBossMusic(); // Musik wechseln
-                }
+                this.checkBossStatus();
             }
-
             if (this.isWakingUp) {
                 this.playWakeupOnce();
-
             } else if (this.isAwake) {
-
-                //  RANDOM SPRINT ATTACKE
-                if (!this.isSprinting && Math.random() < this.sprintChance) {
-                    this.startSprintAttack();
-                }
-
-                if (this.isSprinting) {
-                    this.sprintToCharacter();
-                } else {
-                    this.moveAndWalkAnimation();
-                }
-
+                this.handleBossBehavior();
             } else {
                 this.playAnimation(this.images_alert);
             }
-
         }, 150);
     }
 
+    /**
+     * Checks if the boss should wake up based on character distance.
+     */
+    checkBossStatus() {
+        const distance = Math.abs(this.world.character.x - this.x);
+        if (!this.isAwake && !this.isWakingUp &&
+            distance < this.sightRange && !this.musicSwitched) {
+            this.isWakingUp = true;
+            this.musicSwitched = true;
+            switchToBossMusic();
+        }
+    }
 
-    /** Führt die Aufwachanimation genau einmal aus */
+    /**
+     * Manages boss behavior when awake (sprinting or walking).
+     */
+    handleBossBehavior() {
+        if (!this.isSprinting && Math.random() < this.sprintChance) {
+            this.startSprintAttack();
+        }
+        if (this.isSprinting) {
+            this.sprintToCharacter();
+        } else {
+            this.moveAndWalkAnimation();
+        }
+    }
+
+
+    /**
+     * Plays the wakeup animation once, then sets the boss to awake state.
+     */
     playWakeupOnce() {
         this.isWakingUp = false;
         let i = 0;
@@ -114,11 +131,12 @@ class Endboss extends MovableObject {
         }, 150);
     }
 
-    /** Bewegung und Lauf-Animation nach dem Aufwachen */
+    /**
+     * Handles movement and walking animation towards the character.
+     */
     moveAndWalkAnimation() {
         this.playAnimation(this.images_walking);
 
-        // Verfolgung des Charakters
         if (this.world && this.world.character) {
             const charX = this.world.character.x;
 
@@ -131,6 +149,10 @@ class Endboss extends MovableObject {
             }
         }
     }
+
+    /**
+     * Plays the hurt animation.
+     */
     playHurtAnimation() {
         if (this.hurtAnimationRunning) return;
         this.hurtAnimationRunning = true;
@@ -145,6 +167,10 @@ class Endboss extends MovableObject {
             }
         }, 150);
     }
+
+    /**
+     * Handles the death animation and triggers the win screen.
+     */
     die() {
         if (this.deadAnimationRunning) return;
         this.deadAnimationRunning = true;
@@ -161,7 +187,7 @@ class Endboss extends MovableObject {
                     clearInterval(interval);
                     repeat++;
                     if (repeat < 3) {
-                        playOnce(); // nochmal abspielen
+                        playOnce();
                     } else {
                         this.remove();
                         this.world.showEndScreen("win");
@@ -172,33 +198,53 @@ class Endboss extends MovableObject {
         playOnce();
     }
 
+    /**
+     * Plays a standard animation from an array of images.
+     * @param {string[]} images - Array of image paths.
+     */
     playAnimation(images) {
         const i = this.currentImage % images.length;
         this.img = this.imageCache[images[i]];
         this.currentImage++;
     }
 
+    /**
+     * Initiates a sprint attack.
+     */
     startSprintAttack() {
         this.isSprinting = true;
         this.speed = this.sprintSpeed;
+        this.playAlertBeforeSprint();
+    }
 
-        // Alert EINMAL spielen
+    /**
+     * Plays the alert animation before sprinting.
+     */
+    playAlertBeforeSprint() {
         let i = 0;
         const alertInterval = setInterval(() => {
             this.img = this.imageCache[this.images_alert[i]];
             i++;
-
             if (i >= this.images_alert.length) {
                 clearInterval(alertInterval);
-
-                //  Sprint nach 5 Sekunden beenden
-                setTimeout(() => {
-                    this.isSprinting = false;
-                    this.speed = this.normalSpeed;
-                }, this.sprintDuration);
+                this.startSprintDurationTimer();
             }
         }, 120);
     }
+
+    /**
+     * Sets a timer to end the sprint after a duration.
+     */
+    startSprintDurationTimer() {
+        setTimeout(() => {
+            this.isSprinting = false;
+            this.speed = this.normalSpeed;
+        }, this.sprintDuration);
+    }
+
+    /**
+     * Moves the boss rapidly towards the character during a sprint.
+     */
     sprintToCharacter() {
         if (!this.world || !this.world.character) return;
 
