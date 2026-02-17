@@ -75,13 +75,12 @@ function resetLevel() {
     );
 }
 
-/** Dein unverändertes init() */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }
 
-/** Spiel starten */
+
 function startGame() {
     document.getElementById("start-screen").classList.add("hidden");
     if (isTouchDevice()) {
@@ -94,29 +93,25 @@ function startGame() {
     playBackgroundMusic();
 }
 
-/** Spiel neustarten */
+
 function restartGame() {
     document.getElementById("end-screen").classList.add("hidden");
     startGame();
 }
 
-/** Zurück zum Hauptmenü */
+
 function backToMenu() {
     document.getElementById("end-screen").classList.add("hidden");
     document.getElementById("start-screen").classList.remove("hidden");
     document.getElementById("mobile-controls").classList.remove("show");
-    // Stoppe Musik falls noch läuft
     if (backgroundMusic) backgroundMusic.pause();
     if (bossMusic) bossMusic.pause();
 }
 
-/** Sobald alles geladen ist, wird der Button aktiv */
 window.addEventListener("load", () => {
     const startBtn = document.getElementById("start-btn");
     startBtn.textContent = "Spiel starten";
     startBtn.disabled = false;
-
-    // Sound-Button Text aktualisieren basierend auf gespeicherter Einstellung
     const soundBtn = document.getElementById("sound-btn");
     soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
 });
@@ -204,7 +199,7 @@ window.addEventListener("resize", checkOrientation);
 
 function toggleSound() {
     soundEnabled = !soundEnabled;
-    localStorage.setItem('soundEnabled', soundEnabled); // Speichern im LocalStorage
+    localStorage.setItem('soundEnabled', soundEnabled);
     const soundBtn = document.getElementById("sound-btn");
     soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
     if (!soundEnabled) {
@@ -245,7 +240,6 @@ function closeImprint() {
 const imprintModal = document.getElementById("imprint-modal");
 
 imprintModal.addEventListener("click", (event) => {
-    // Nur schließen, wenn wirklich auf den Hintergrund geklickt wurde
     if (event.target === imprintModal) {
         closeImprint();
     }

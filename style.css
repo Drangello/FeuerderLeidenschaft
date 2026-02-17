@@ -96,23 +96,17 @@ canvas {
         url('img/Screen/Mainscreen.jpeg');
 }
 
-/* GEWONNEN */
 .overlay-end.end-win {
     background-image:
 
         url('img/Screen/Victory.jpeg');
 }
 
-/* VERLOREN */
 .overlay-end.end-lose {
     background-image:
 
         url('img/Screen/Loser.jpeg');
 }
-
-/* =====================
-   BUTTONS (GENERAL)
-===================== */
 
 button {
     padding: 12px 24px;
@@ -133,10 +127,6 @@ button:disabled {
 button:hover:not(:disabled) {
     background-color: firebrick;
 }
-
-/* =====================
-   MOBILE CONTROLS
-===================== */
 
 #mobile-controls {
     position: absolute;
@@ -169,10 +159,6 @@ button:hover:not(:disabled) {
     border: none;
 }
 
-/* =====================
-   IMPRESSUM MODAL
-===================== */
-
 .imprint-modal {
     justify-content: center;
     align-items: center;
@@ -200,10 +186,6 @@ button:hover:not(:disabled) {
     margin-top: 20px;
     width: 100%;
 }
-
-/* =====================
-   RESPONSIVE
-===================== */
 
 @media (max-width: 768px) {
     #mobile-controls.show {

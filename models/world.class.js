@@ -184,7 +184,6 @@ class World {
         }
     }
 
-
     /**
      * Main draw loop of the game.
      */

@@ -8,18 +8,17 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'
     ];
     percent = 100;
-    constructor(){
+    constructor() {
         super();
         this.loadImage(this.IMAGES[5]);
-        this.x = 20; // Position von links
-        this.y = 20; // Position von oben
-        this.width = 200; // Breite der StatusBar (falls nötig)
-        this.height = 50; // Höhe der StatusBar (falls nötig)
+        this.x = 20;
+        this.y = 20;
+        this.width = 200;
+        this.height = 50;
     }
 
-    setPercent(percent){
+    setPercent(percent) {
         this.percent = percent;
-        // Bild je nach Leben auswählen
         let imageIndex;
         if (percent >= 80) {
             imageIndex = 4;
@@ -34,12 +33,12 @@ class StatusBar extends DrawableObject {
         } else {
             imageIndex = 0;
         }
-    
-    this.loadImage(this.IMAGES[imageIndex]);
+
+        this.loadImage(this.IMAGES[imageIndex]);
     }
-    
-    draw(ctx){
-        if(this.img) {
+
+    draw(ctx) {
+        if (this.img) {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         }
     }
