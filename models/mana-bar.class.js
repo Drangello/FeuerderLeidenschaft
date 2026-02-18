@@ -39,10 +39,8 @@ class ManaBar extends DrawableObject {
     }
 
     draw(ctx) {
-        // Bar zeichnen
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
 
-        // Icon zeichnen (links auf der Bar)
         if (this.icon.complete) {
             ctx.drawImage(
                 this.icon,
