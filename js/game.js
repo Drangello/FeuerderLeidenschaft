@@ -90,6 +90,7 @@ function init() {
  * Starts the game. Hides the start screen, displays relevant buttons, initializes the level and controls, and plays background music.
  */
 function startGame() {
+    clearAllIntervals();
     document.getElementById("start-screen").classList.add("hidden");
     document.getElementById("in-game-sound-btn").classList.remove("hidden");
     if (isTouchDevice()) {
@@ -122,6 +123,14 @@ function backToMenu() {
     if (backgroundMusic) backgroundMusic.pause();
     if (bossMusic) bossMusic.pause();
     currentMusicType = 'none';
+    clearAllIntervals();
+}
+
+/**
+ * Clears all running intervals to stop pending game loops before restarting or returning to the menu.
+ */
+function clearAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
 window.addEventListener("load", () => {
