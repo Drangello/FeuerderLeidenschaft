@@ -269,6 +269,8 @@ class World {
         this.character.stopAllSounds();
         this.character.stopAllIntervals();
         document.getElementById("mobile-controls").classList.remove("show");
+        document.getElementById("mobile-controls").style.display = "none";
+        document.getElementById("in-game-sound-btn").classList.add("hidden");
         const endScreen = document.getElementById("end-screen");
         const endText = document.getElementById("end-text");
         endScreen.classList.remove("hidden", "end-win", "end-lose");

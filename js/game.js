@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let backgroundMusic;
 let bossMusic;
+let currentMusicType = 'none';
 let jumpAudio = null;
 let soundEnabled = localStorage.getItem('soundEnabled') !== 'false'; // true wenn nicht gespeichert oder true
 
@@ -106,8 +107,10 @@ function backToMenu() {
     document.getElementById("in-game-sound-btn").classList.add("hidden");
     document.getElementById("start-screen").classList.remove("hidden");
     document.getElementById("mobile-controls").classList.remove("show");
+    document.getElementById("mobile-controls").style.display = "none";
     if (backgroundMusic) backgroundMusic.pause();
     if (bossMusic) bossMusic.pause();
+    currentMusicType = 'none';
 }
 
 window.addEventListener("load", () => {
@@ -195,7 +198,11 @@ function checkOrientation() {
         rotateOverlay.style.display = "none";
 
         if (mobileControls && mobileControls.classList.contains("show")) {
-            mobileControls.style.display = "flex";
+            if (world && world.gameRunning) {
+                mobileControls.style.display = "flex";
+            } else {
+                mobileControls.style.display = "none";
+            }
         }
     }
 }
@@ -216,8 +223,13 @@ function toggleSound() {
         if (backgroundMusic) backgroundMusic.pause();
         if (bossMusic) bossMusic.pause();
     } else {
-        if (backgroundMusic) backgroundMusic.play();
-        if (bossMusic) bossMusic.play();
+        if (currentMusicType === 'background') {
+            if (backgroundMusic) backgroundMusic.play();
+            else playBackgroundMusic();
+        } else if (currentMusicType === 'boss') {
+            if (bossMusic) bossMusic.play();
+            else switchToBossMusic();
+        }
     }
 }
 
@@ -231,10 +243,12 @@ function playSound(path, volume = 1, loop = false) {
 }
 
 function playBackgroundMusic() {
+    currentMusicType = 'background';
     backgroundMusic = playSound('audio/mukke/Sound 1.mp3', 0.2, true);
 }
 
 function switchToBossMusic() {
+    currentMusicType = 'boss';
     if (backgroundMusic) backgroundMusic.pause();
     bossMusic = playSound('audio/mukke/Sound 2 Boss.mp3', 0.2, true);
 }
