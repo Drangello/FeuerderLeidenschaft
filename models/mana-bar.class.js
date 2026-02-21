@@ -1,3 +1,7 @@
+/**
+ * Represents the mana bar UI element.
+ * @extends DrawableObject
+ */
 class ManaBar extends DrawableObject {
     IMAGES = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',

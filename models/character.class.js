@@ -313,19 +313,16 @@ class Character extends MovableObject {
      */
     playSleepIdleAnimation() {
         this.isSleeping = true;
-
         if (!this.snorePlayed) {
             this.snoreAudio = playSound('audio/effects/snore.mp3', 0.8, true);
             this.snorePlayed = true;
         }
-
         let i = this.currentImage % this.images_sleep.length;
         let path = this.images_sleep[i];
 
         if (this.imageCache[path]) {
             this.img = this.imageCache[path];
         }
-
         this.currentImage++;
     }
 

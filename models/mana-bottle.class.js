@@ -1,3 +1,7 @@
+/**
+ * Represents a mana bottle that can be collected by the player.
+ * @extends MovableObject
+ */
 class ManaBottle extends MovableObject {
     constructor(x, y) {
         super();
