@@ -119,9 +119,9 @@ class CrazyChicken extends Chicken {
     }
 
     /**
-     * Handles death logic, stops all intervals, and spawns a mana bottle.
+     * to fully stop the enemy's behavior.
+     * Prevents memory leaks and unintended updates after death.
      */
-
     stopAllIntervals() {
         const intervals = [
             this.walkingAnimation,
@@ -134,16 +134,29 @@ class CrazyChicken extends Chicken {
         intervals.forEach(interval => clearInterval(interval))
     }
 
+    /**
+     * Displays the static dead sprite
+     * and stops any remaining movement.
+     */
     showDeadImage() {
         this.loadImage('img/3_enemies_chicken/chicken_small/2_dead/dead.png');
         this.speed = 0;
     }
 
+    /**
+     * Disables collision detection by
+     * setting the hitbox dimensions to zero.
+     */
     disableHitbox() {
         this.hitboxWidth = 0;
         this.hitboxHeight = 0;
     }
 
+    /**
+     * Spawns a mana bottle after a short delay
+     * and marks the enemy as removed.
+     * The bottle is added to the world's mana collection.
+     */
     dropManaBottle() {
         setTimeout(() => {
             this.isRemoved = true;
@@ -157,6 +170,13 @@ class CrazyChicken extends Chicken {
         }, 1500);
     }
 
+    /**
+     * Handles the complete death sequence:
+     * - Stops all active intervals
+     * - Shows the dead image
+     * - Disables the hitbox
+     * - Drops a mana bottle
+     */
     die() {
         this.stopAllIntervals();
         this.showDeadImage();

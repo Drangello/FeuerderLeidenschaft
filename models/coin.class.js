@@ -16,6 +16,10 @@ class Coin extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the spinning animation for the object.
+     * Cycles through the `images_spin` array at a fixed interval.
+     */
     animate() {
         let i = 0;
         this.spinInterval = setInterval(() => {
@@ -23,10 +27,15 @@ class Coin extends MovableObject {
             i = (i + 1) % this.images_spin.length;
         }, 150);
     }
+
+    /**
+     * Stops the spinning animation and marks the object as removed.
+     * Clears the interval to prevent memory leaks.
+     */
     remove() {
-    this.isRemoved = true;
-    if (this.spinInterval) {
-        clearInterval(this.spinInterval);
+        this.isRemoved = true;
+        if (this.spinInterval) {
+            clearInterval(this.spinInterval);
+        }
     }
-}
 }

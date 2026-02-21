@@ -17,6 +17,10 @@ class StatusBar extends DrawableObject {
         this.height = 50;
     }
 
+    /**
+     * Updates the health bar percentage.
+     * @param {number} percent - The new percentage value (0-100).
+     */
     setPercent(percent) {
         this.percent = percent;
         let imageIndex;
@@ -37,6 +41,10 @@ class StatusBar extends DrawableObject {
         this.loadImage(this.IMAGES[imageIndex]);
     }
 
+    /**
+     * Draws the status bar on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The rendering context.
+     */
     draw(ctx) {
         if (this.img) {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height);

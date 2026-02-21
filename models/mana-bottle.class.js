@@ -8,6 +8,9 @@ class ManaBottle extends MovableObject {
         this.height = 60;
     }
 
+    /**
+     * Marks the object as removed.
+     */
     remove() {
         this.isRemoved = true;
     }

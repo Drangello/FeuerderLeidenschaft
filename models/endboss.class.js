@@ -176,26 +176,24 @@ class Endboss extends MovableObject {
         if (this.deadAnimationRunning) return;
         this.deadAnimationRunning = true;
         this.speed = 0;
-        let repeat = 0;
-        const playOnce = () => {
-            let i = 0;
-            const interval = setInterval(() => {
-                if (i < this.images_dead.length) {
-                    this.img = this.imageCache[this.images_dead[i]];
-                    i++;
-                } else {
+        this.playDeadAnimation(3, 200, () => {
+            this.remove();
+            this.world.showEndScreen("win");
+        });
+    }
+
+    playDeadAnimation(repeatCount, intervalTime, callback) {
+        let i = 0, repeat = 0;
+        const interval = setInterval(() => {
+            this.img = this.imageCache[this.images_dead[i++]];
+            if (i >= this.images_dead.length) {
+                i = 0;
+                if (++repeat >= repeatCount) {
                     clearInterval(interval);
-                    repeat++;
-                    if (repeat < 3) {
-                        playOnce();
-                    } else {
-                        this.remove();
-                        this.world.showEndScreen("win");
-                    }
+                    callback();
                 }
-            }, 200);
-        };
-        playOnce();
+            }
+        }, intervalTime);
     }
 
     /**

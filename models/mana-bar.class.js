@@ -20,7 +20,10 @@ class ManaBar extends DrawableObject {
         this.iconSize = 32;
         this.iconPadding = 8;
     }
-
+    /**
+     * Updates the mana bar percentage.
+     * @param {number} mana - The new percentage value (0-100).
+     */
     setMana(mana, maxMana) {
         const percent = (mana / maxMana) * 100;
         let imageIndex;
@@ -32,7 +35,10 @@ class ManaBar extends DrawableObject {
         else imageIndex = 0;
         this.loadImage(this.IMAGES[imageIndex]);
     }
-
+    /**
+         * Draws the mana bar on the canvas.
+         * @param {CanvasRenderingContext2D} ctx - The rendering context.
+         */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
 

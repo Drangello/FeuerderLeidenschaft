@@ -47,29 +47,53 @@ class Chicken extends MovableObject {
     }
 
     /**
-     * Handles death logic, plays animation, drops loot, and removes the object.
+     * Handles the enemy death sequence.
+     * Stops movement, shows the dead sprite, disables collisions,
+     * and schedules a mana bottle drop.
      */
     die() {
+        this.stopMovement();
+        this.showDeadSprite();
+        this.disableHitbox();
+        this.dropManaBottleDelayed(1500);
+    }
+
+    /**
+     * Stops all active movement intervals.
+     */
+    stopMovement() {
         clearInterval(this.walkingAnimation);
         clearInterval(this.movingInterval);
+    }
 
+    /**
+     * Loads the dead image and stops movement.
+     */
+    showDeadSprite() {
         this.loadImage('img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
         this.speed = 0;
+    }
 
+    /**
+     * Disables the hitbox to prevent further collisions.
+     */
+    disableHitbox() {
         this.hitboxWidth = 0;
         this.hitboxHeight = 0;
+    }
 
-
+    /**
+     * Marks the enemy as removed after a delay and
+     * spawns a mana bottle in the world if it exists.
+     * @param {number} delay - Time in milliseconds before removing the enemy and dropping the bottle.
+     */
+    dropManaBottleDelayed(delay) {
         setTimeout(() => {
             this.isRemoved = true;
-
             if (this.world) {
-                const bottle = new ManaBottle(
-                    this.x + this.width / 2,
-                    400
-                );
+                const bottle = new ManaBottle(this.x + this.width / 2, 400);
                 this.world.manaBottles.push(bottle);
             }
-        }, 1500);
+        }, delay);
     }
 }
