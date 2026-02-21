@@ -25,22 +25,18 @@ class ThrowableObject extends MovableObject {
         super();
         this.loadImages(this.images_rotation);
         this.loadImage(this.images_rotation[0]);
-
         this.width = 50;
         this.height = 50;
         this.x = x;
         this.y = y;
         this.otherDirection = otherDirection;
         this.world = world;
-
         this.speedY = 15;
         this.acceleration = 1.5;
         this.speedX = otherDirection ? -8 : 8;
-
         this.groundY = 350;
         this.applyGravity();
         this.animate();
-
     }
 
     /**

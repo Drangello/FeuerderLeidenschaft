@@ -26,19 +26,11 @@ body {
     color: white;
 }
 
-/* =====================
-   HEADLINE
-===================== */
-
 h1 {
     color: white;
     text-align: center;
     margin: 0;
 }
-
-/* =====================
-   GAME CONTAINER
-===================== */
 
 #game-container {
     position: relative;
@@ -48,10 +40,6 @@ h1 {
     overflow: hidden;
 }
 
-/* =====================
-   CANVAS
-===================== */
-
 canvas {
     width: 100%;
     height: 100%;
@@ -59,10 +47,6 @@ canvas {
     background: url('img/5_background/layers/air.png');
     background-size: cover;
 }
-
-/* =====================
-   OVERLAYS
-===================== */
 
 .overlay {
     position: absolute;

@@ -176,7 +176,6 @@ class Endboss extends MovableObject {
         if (this.deadAnimationRunning) return;
         this.deadAnimationRunning = true;
         this.speed = 0;
-
         let repeat = 0;
         const playOnce = () => {
             let i = 0;

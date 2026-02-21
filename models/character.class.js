@@ -245,16 +245,10 @@ class Character extends MovableObject {
     playHurtAnimation() {
         if (this.hurtAnimationRunning) return;
         this.hurtAnimationRunning = true;
-
         let i = 0;
-        let interval = setInterval(() => {
-            if (i < this.images_hurt.length) {
-                let path = this.images_hurt[i];
-                this.img = this.imageCache[path];
-                i++;
-            } else {
-                i = 0;
-            }
+        const interval = setInterval(() => {
+            this.img = this.imageCache[this.images_hurt[i]];
+            i = (i + 1) % this.images_hurt.length;
 
             if (!this.isHurt()) {
                 clearInterval(interval);
@@ -269,7 +263,6 @@ class Character extends MovableObject {
     playJumpAnimation() {
         if (this.jumpAnimationRunning) return;
         this.jumpAnimationRunning = true;
-
         let i = 0;
         let interval = setInterval(() => {
             if (i < this.images_jumping.length) {
@@ -289,7 +282,6 @@ class Character extends MovableObject {
     playDeadAnimation() {
         if (this.deadAnimationStarted) return;
         this.deadAnimationStarted = true;
-
         let i = 0;
         let interval = setInterval(() => {
             if (i < this.images_dead.length) {

@@ -59,7 +59,6 @@ class MovableObject extends DrawableObject {
                 }
             }
         }, 1000 / 60);
-
         return interval;
     }
 
@@ -80,7 +79,6 @@ class MovableObject extends DrawableObject {
         const ay = this.y + (this.hitboxOffsetY || 0);
         const aw = (this.hitboxWidth || this.width);
         const ah = (this.hitboxHeight || this.height);
-
         const bx = mo.x + (mo.hitboxOffsetX || 0);
         const by = mo.y + (mo.hitboxOffsetY || 0);
         const bw = (mo.hitboxWidth || mo.width);
@@ -98,7 +96,6 @@ class MovableObject extends DrawableObject {
     hit() {
         if (this.isHurt()) return;
         this.health -= 20;
-
         if (this.health <= 0) {
             this.health = 0;
             this.die?.();

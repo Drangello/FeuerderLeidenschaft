@@ -121,26 +121,32 @@ class CrazyChicken extends Chicken {
     /**
      * Handles death logic, stops all intervals, and spawns a mana bottle.
      */
-    die() {
-        clearInterval(this.walkingAnimation);
-        clearInterval(this.movingInterval);
-        clearInterval(this.jumpInterval);
-        clearInterval(this.jumpAnimation);
-        clearInterval(this.upInterval);
-        clearInterval(this.downInterval);
 
-        this.loadImage(
-            'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
-        );
+    stopAllIntervals() {
+        const intervals = [
+            this.walkingAnimation,
+            this.movingInterval,
+            this.jumpInterval,
+            this.jumpAnimation,
+            this.upInterval,
+            this.downInterval
+        ];
+        intervals.forEach(interval => clearInterval(interval))
+    }
+
+    showDeadImage() {
+        this.loadImage('img/3_enemies_chicken/chicken_small/2_dead/dead.png');
         this.speed = 0;
+    }
 
+    disableHitbox() {
         this.hitboxWidth = 0;
         this.hitboxHeight = 0;
+    }
 
-
+    dropManaBottle() {
         setTimeout(() => {
             this.isRemoved = true;
-
             if (this.world) {
                 const bottle = new ManaBottle(
                     this.x + this.width / 2,
@@ -149,6 +155,13 @@ class CrazyChicken extends Chicken {
                 this.world.manaBottles.push(bottle);
             }
         }, 1500);
+    }
+
+    die() {
+        this.stopAllIntervals();
+        this.showDeadImage();
+        this.disableHitbox();
+        this.dropManaBottle();
     }
 }
 

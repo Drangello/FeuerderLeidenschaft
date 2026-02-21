@@ -251,9 +251,7 @@ class World {
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1;
         }
-
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-
         if (mo.otherDirection) {
             mo.x = mo.x * -1;
             this.ctx.restore();
@@ -266,20 +264,14 @@ class World {
      */
     showEndScreen(result) {
         this.gameRunning = false;
-
         if (backgroundMusic) backgroundMusic.pause();
         if (bossMusic) bossMusic.pause();
-
         this.character.stopAllSounds();
         this.character.stopAllIntervals();
-
         document.getElementById("mobile-controls").classList.remove("show");
-
         const endScreen = document.getElementById("end-screen");
         const endText = document.getElementById("end-text");
-
         endScreen.classList.remove("hidden", "end-win", "end-lose");
-
         if (result === "win") {
             endScreen.classList.add("end-win");
         } else {
