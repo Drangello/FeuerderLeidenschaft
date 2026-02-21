@@ -83,6 +83,7 @@ function init() {
 
 function startGame() {
     document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("in-game-sound-btn").classList.remove("hidden");
     if (isTouchDevice()) {
         document.getElementById("mobile-controls").classList.add("show");
     }
@@ -102,6 +103,7 @@ function restartGame() {
 
 function backToMenu() {
     document.getElementById("end-screen").classList.add("hidden");
+    document.getElementById("in-game-sound-btn").classList.add("hidden");
     document.getElementById("start-screen").classList.remove("hidden");
     document.getElementById("mobile-controls").classList.remove("show");
     if (backgroundMusic) backgroundMusic.pause();
@@ -114,6 +116,10 @@ window.addEventListener("load", () => {
     startBtn.disabled = false;
     const soundBtn = document.getElementById("sound-btn");
     soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
+    const inGameSoundBtn = document.getElementById("in-game-sound-btn");
+    if (inGameSoundBtn) {
+        inGameSoundBtn.textContent = soundEnabled ? "🔊" : "🔈";
+    }
 });
 
 window.addEventListener("keydown", (e) => {
@@ -202,6 +208,10 @@ function toggleSound() {
     localStorage.setItem('soundEnabled', soundEnabled);
     const soundBtn = document.getElementById("sound-btn");
     soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
+    const inGameSoundBtn = document.getElementById("in-game-sound-btn");
+    if (inGameSoundBtn) {
+        inGameSoundBtn.textContent = soundEnabled ? "🔊" : "🔈";
+    }
     if (!soundEnabled) {
         if (backgroundMusic) backgroundMusic.pause();
         if (bossMusic) bossMusic.pause();
