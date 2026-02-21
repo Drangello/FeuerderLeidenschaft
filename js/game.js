@@ -5,9 +5,11 @@ let backgroundMusic;
 let bossMusic;
 let currentMusicType = 'none';
 let jumpAudio = null;
-let soundEnabled = localStorage.getItem('soundEnabled') !== 'false'; // true wenn nicht gespeichert oder true
+let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
 
-/** Level neu erstellen */
+/**
+ * Resets the level by creating a new Level instance including enemies, clouds, backgrounds, and coins.
+ */
 function resetLevel() {
     level1 = new Level(
         [
@@ -76,12 +78,17 @@ function resetLevel() {
     );
 }
 
+/**
+ * Initializes the main game logic by fetching the canvas element and instantiating the World object.
+ */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }
 
-
+/**
+ * Starts the game. Hides the start screen, displays relevant buttons, initializes the level and controls, and plays background music.
+ */
 function startGame() {
     document.getElementById("start-screen").classList.add("hidden");
     document.getElementById("in-game-sound-btn").classList.remove("hidden");
@@ -95,13 +102,17 @@ function startGame() {
     playBackgroundMusic();
 }
 
-
+/**
+ * Restarts an already running or finished game. Hides the end screen and calls startGame().
+ */
 function restartGame() {
     document.getElementById("end-screen").classList.add("hidden");
     startGame();
 }
 
-
+/**
+ * Ends the current game state and returns the user to the main menu. Pauses music and resets UI screens.
+ */
 function backToMenu() {
     document.getElementById("end-screen").classList.add("hidden");
     document.getElementById("in-game-sound-btn").classList.add("hidden");
@@ -139,6 +150,9 @@ window.addEventListener("keyup", (e) => {
     if (e.keyCode === 73) keyboard.THROW = false;
 });
 
+/**
+ * Binds touch events to the mobile control buttons, enabling playing on touch-enabled devices.
+ */
 function bindMobileControls() {
     const left = document.getElementById("btn-left");
     const right = document.getElementById("btn-right");
@@ -171,6 +185,11 @@ function bindMobileControls() {
     });
     throwBtn.addEventListener("touchend", () => keyboard.THROW = false);
 }
+
+/**
+ * Checks if the user is playing on a touch-compatible device.
+ * @returns {boolean} True if the device supports touch interactions.
+ */
 function isTouchDevice() {
     return (
         'ontouchstart' in window ||
@@ -178,61 +197,73 @@ function isTouchDevice() {
     );
 }
 
+/**
+ * Monitors the device orientation and displays an overlay prompting the user to rotate their device if they are holding it in portrait format.
+ */
 function checkOrientation() {
     if (!isTouchDevice()) return;
 
     const rotateOverlay = document.getElementById("rotate-overlay");
     const mobileControls = document.getElementById("mobile-controls");
-
     const isPortrait = window.innerHeight > window.innerWidth;
 
-    if (isPortrait) {
-        rotateOverlay.classList.remove("hidden");
-        rotateOverlay.style.display = "flex";
+    toggleDisplay(rotateOverlay, !isPortrait ? "none" : "flex", !isPortrait);
+    if (!mobileControls) return;
 
-        if (mobileControls) {
-            mobileControls.style.display = "none";
-        }
-    } else {
-        rotateOverlay.classList.add("hidden");
-        rotateOverlay.style.display = "none";
+    if (isPortrait) toggleDisplay(mobileControls, "none");
+    else toggleDisplay(mobileControls, (mobileControls.classList.contains("show") && world?.gameRunning) ? "flex" : "none");
+}
 
-        if (mobileControls && mobileControls.classList.contains("show")) {
-            if (world && world.gameRunning) {
-                mobileControls.style.display = "flex";
-            } else {
-                mobileControls.style.display = "none";
-            }
-        }
-    }
+function toggleDisplay(el, display, hiddenClass = false) {
+    el.style.display = display;
+    if (hiddenClass) el.classList.add("hidden");
+    else el.classList.remove("hidden");
 }
 
 
 window.addEventListener("resize", checkOrientation);
 
+/**
+ * Toggles global game sound on or off, saves choice to localStorage, and updates UI control elements and active music.
+ */
 function toggleSound() {
     soundEnabled = !soundEnabled;
     localStorage.setItem('soundEnabled', soundEnabled);
-    const soundBtn = document.getElementById("sound-btn");
-    soundBtn.textContent = soundEnabled ? "Sound: An" : "Sound: Aus";
-    const inGameSoundBtn = document.getElementById("in-game-sound-btn");
-    if (inGameSoundBtn) {
-        inGameSoundBtn.textContent = soundEnabled ? "🔊" : "🔈";
-    }
-    if (!soundEnabled) {
-        if (backgroundMusic) backgroundMusic.pause();
-        if (bossMusic) bossMusic.pause();
-    } else {
-        if (currentMusicType === 'background') {
-            if (backgroundMusic) backgroundMusic.play();
-            else playBackgroundMusic();
-        } else if (currentMusicType === 'boss') {
-            if (bossMusic) bossMusic.play();
-            else switchToBossMusic();
-        }
-    }
+
+    updateButton("sound-btn", soundEnabled ? "Sound: An" : "Sound: Aus");
+    updateButton("in-game-sound-btn", soundEnabled ? "🔊" : "🔈");
+
+    handleMusic();
 }
 
+function updateButton(id, text) {
+    const btn = document.getElementById(id);
+    if (btn) btn.textContent = text;
+}
+
+function handleMusic() {
+    if (!soundEnabled) return pauseAllMusic();
+    if (currentMusicType === 'background') playOrResume(backgroundMusic, playBackgroundMusic);
+    else if (currentMusicType === 'boss') playOrResume(bossMusic, switchToBossMusic);
+}
+
+function pauseAllMusic() {
+    if (backgroundMusic) backgroundMusic.pause();
+    if (bossMusic) bossMusic.pause();
+}
+
+function playOrResume(musicObj, fallbackFn) {
+    if (musicObj) musicObj.play();
+    else fallbackFn();
+}
+
+/**
+ * Handles playing an individual audio clip.
+ * @param {string} path - The relative file path to the audio file.
+ * @param {number} [volume=1] - Adjusts volume of the playback from 0.0 to 1.0.
+ * @param {boolean} [loop=false] - Whether or not the sound should repeat indefinitely.
+ * @returns {HTMLAudioElement|null} The created audio HTML element, or null if sound is disabled.
+ */
 function playSound(path, volume = 1, loop = false) {
     if (!soundEnabled) return null;
     const audio = new Audio(path);
@@ -242,11 +273,17 @@ function playSound(path, volume = 1, loop = false) {
     return audio;
 }
 
+/**
+ * Initiates the looping playback of the main background level music track.
+ */
 function playBackgroundMusic() {
     currentMusicType = 'background';
     backgroundMusic = playSound('audio/mukke/Sound 1.mp3', 0.2, true);
 }
 
+/**
+ * Stops standard background music and transitions to the boss battle music track.
+ */
 function switchToBossMusic() {
     currentMusicType = 'boss';
     if (backgroundMusic) backgroundMusic.pause();
@@ -254,10 +291,16 @@ function switchToBossMusic() {
 }
 window.addEventListener("orientationchange", checkOrientation);
 
+/**
+ * Displays the imprint (legal notice) modal to the screen.
+ */
 function openImprint() {
     document.getElementById("imprint-modal").classList.remove("hidden");
 }
 
+/**
+ * Closes the imprint (legal notice) modal.
+ */
 function closeImprint() {
     document.getElementById("imprint-modal").classList.add("hidden");
 }
@@ -268,5 +311,3 @@ imprintModal.addEventListener("click", (event) => {
         closeImprint();
     }
 });
-
-
